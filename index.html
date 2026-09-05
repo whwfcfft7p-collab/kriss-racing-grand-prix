@@ -2512,6 +2512,24 @@ function goToLevel4() {
     }
 
 });
+        function resetGame() {
+    localStorage.removeItem("krissLevel");
+    location.reload();
+}
+
+document.addEventListener("keydown", function(event) {
+
+    if (event.shiftKey && event.key.toLowerCase() === "r") {
+
+        const confirmReset = confirm("RESET KRISS RACING GAME?");
+
+        if (confirmReset) {
+            resetGame();
+        }
+
+    }
+
+});
     </script>
 
 </body>
