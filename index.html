@@ -165,6 +165,72 @@
             line-height: 1.8;
             letter-spacing: 1px;
         }
+                #questionNumber {
+            margin-top: 35px;
+            margin-bottom: 20px;
+            font-size: 11px;
+            letter-spacing: 4px;
+            color: #666;
+        }
+
+        #question {
+            font-size: clamp(24px, 4vw, 42px);
+            line-height: 1.15;
+            letter-spacing: -1px;
+            margin-bottom: 35px;
+        }
+
+        #answers {
+            width: min(600px, 90%);
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .answer {
+            padding: 18px 20px;
+            border: 1px solid #333;
+            background: #111;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .answer:hover {
+            border-color: #ff8700;
+            background: #ff8700;
+            color: #0b0b0b;
+        }
+
+        #feedback {
+            margin-top: 25px;
+            min-height: 20px;
+            color: #ff4d4d;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        @media (max-width: 600px) {
+
+            #answers {
+                grid-template-columns: 1fr;
+            }
+
+            .top-line {
+                left: 20px;
+                right: 20px;
+            }
+
+            h2 {
+                font-size: 45px;
+            }
+
+        }
     </style>
 </head>
 
@@ -247,9 +313,195 @@
             `;
         }
 
-        function startRegistration() {
-            alert("Verification system ready.");
+     function startRegistration() {
+
+    document.querySelector(".screen").innerHTML = `
+
+        <div class="top-line">
+            <div>KRISS RACING TEAM</div>
+            <div>DRIVER VERIFICATION</div>
+        </div>
+
+        <div class="registration">
+
+            <div class="level">
+                LEVEL 0 • DRIVER REGISTRATION
+            </div>
+
+            <div id="questionNumber"></div>
+
+            <h2 id="question"></h2>
+
+            <div id="answers"></div>
+
+            <div id="feedback"></div>
+
+        </div>
+
+        <div class="bottom">
+            RACE CONTROL • DRIVER ACCESS SYSTEM
+        </div>
+
+    `;
+
+    showQuestion();
+}
+        let currentQuestion = 0;
+
+const questions = [
+    {
+        question: "Care este mașina cu care ai înnebunit-o pe Kriss?",
+        answers: [
+            "BMW M3",
+            "Porsche 911 GT3 RS",
+            "Nissan GT-R",
+            "Audi R8"
+        ],
+        correct: 1
+    },
+
+    {
+        question: "Care este marca și modelul mașinii tale actuale?",
+        answers: [
+            "Opel Astra",
+            "Volkswagen Passat",
+            "Opel Insignia",
+            "BMW Seria 3"
+        ],
+        correct: 2
+    },
+
+    {
+        question: "Care este porecla ta?",
+        answers: [
+            "The Driver",
+            "Sniper-ul",
+            "Boss",
+            "Speedy"
+        ],
+        correct: 1
+    },
+
+    {
+        question: "La ce serial te-ai uitat de cel puțin 3 ori?",
+        answers: [
+            "Breaking Bad",
+            "Prison Break",
+            "Lucifer",
+            "Peaky Blinders"
+        ],
+        correct: 2
+    },
+
+    {
+        question: "Care este unul dintre cele mai cunoscute inside joke-uri ale noastre?",
+        answers: [
+            "Unde e cheia?",
+            "Mă doare Tomasul",
+            "Hai la McDonald's",
+            "Nu mai pornește mașina"
+        ],
+        correct: 1
+    }
+];
+
+function showQuestion() {
+
+    const q = questions[currentQuestion];
+
+    document.getElementById("questionNumber").innerHTML =
+        "QUESTION " + (currentQuestion + 1) + " / " + questions.length;
+
+    document.getElementById("question").innerHTML =
+        q.question;
+
+    const answersContainer = document.getElementById("answers");
+
+    answersContainer.innerHTML = "";
+
+    q.answers.forEach((answer, index) => {
+
+        const button = document.createElement("button");
+
+        button.className = "answer";
+        button.innerHTML = answer;
+
+        button.onclick = function() {
+            checkAnswer(index);
+        };
+
+        answersContainer.appendChild(button);
+
+    });
+}
+
+function checkAnswer(selected) {
+
+    const q = questions[currentQuestion];
+
+    if (selected === q.correct) {
+
+        currentQuestion++;
+
+        if (currentQuestion < questions.length) {
+
+            showQuestion();
+
+        } else {
+
+            completeRegistration();
+
         }
+
+    } else {
+
+        document.getElementById("feedback").innerHTML =
+            "✕ WRONG ANSWER — TRY AGAIN";
+
+    }
+}
+
+function completeRegistration() {
+
+    document.querySelector(".screen").innerHTML = `
+
+        <div class="top-line">
+            <div>KRISS RACING TEAM</div>
+            <div>DRIVER VERIFIED</div>
+        </div>
+
+        <div class="registration">
+
+            <div class="level">
+                LEVEL 0 • COMPLETE
+            </div>
+
+            <h2>
+                DRIVER<br>
+                <span>VERIFIED ✓</span>
+            </h2>
+
+            <p class="intro">
+                Identity confirmed.<br>
+                Welcome to the Kriss Racing Team, Driver Laur.
+            </p>
+
+            <button class="button" onclick="goToLevel1()">
+                ENTER THE GRAND PRIX
+            </button>
+
+        </div>
+
+        <div class="bottom">
+            RACE CONTROL • ACCESS GRANTED
+        </div>
+
+    `;
+}
+
+function goToLevel1() {
+    alert("LEVEL 1 — FUEL MANAGEMENT");
+}
 
     </script>
 
