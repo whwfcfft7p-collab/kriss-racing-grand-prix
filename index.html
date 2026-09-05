@@ -584,6 +584,405 @@
         min-height: 270px;
     }
 }
+        /* =====================================
+   KRISS RACING — PREMIUM F1 REDESIGN
+   ===================================== */
+
+:root {
+    --bg: #0a0c10;
+    --panel: #11151b;
+    --panel-soft: #171c23;
+    --border: #2a3038;
+
+    --text: #f4f6f8;
+    --muted: #8d96a3;
+
+    --papaya: #ff9e45;
+    --papaya-soft: rgba(255, 158, 69, 0.10);
+
+    --success: #78d6a3;
+    --danger: #ff6b6b;
+}
+
+
+/* BODY */
+
+body {
+    background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.025), transparent 35%),
+        radial-gradient(circle at 80% 70%, rgba(255,158,69,0.035), transparent 30%),
+        var(--bg);
+
+    color: var(--text);
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+
+/* MAIN SCREEN */
+
+.screen {
+    padding: 90px 30px 70px;
+}
+
+
+/* TOP BAR */
+
+.top-line {
+    top: 28px;
+
+    padding-bottom: 15px;
+
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+
+    color: #727b87;
+
+    font-size: 10px;
+    letter-spacing: 2.5px;
+}
+
+
+/* TEAM */
+
+.team {
+    color: var(--muted);
+
+    font-size: 11px;
+    letter-spacing: 5px;
+
+    margin-bottom: 22px;
+}
+
+
+/* BIG TITLES */
+
+h1,
+h2 {
+    color: var(--text);
+}
+
+h1 {
+    letter-spacing: -6px;
+}
+
+h2 {
+    letter-spacing: -3px;
+}
+
+
+/* PAPAYA ONLY AS ACCENT */
+
+h1 span,
+h2 span {
+    color: var(--papaya);
+}
+
+
+/* LEVEL LABEL */
+
+.level {
+    display: inline-block;
+
+    color: var(--papaya);
+
+    background: var(--papaya-soft);
+
+    border: 1px solid rgba(255,158,69,0.25);
+
+    padding: 8px 14px;
+
+    border-radius: 999px;
+
+    font-size: 9px;
+    letter-spacing: 3px;
+
+    margin-bottom: 28px;
+}
+
+
+/* SUBTITLE / INTRO */
+
+.subtitle,
+.intro {
+    color: var(--muted);
+}
+
+
+/* MAIN BUTTON */
+
+.button {
+    border: 1px solid rgba(255,255,255,0.18);
+
+    background: var(--text);
+
+    color: #080a0d;
+
+    padding: 17px 35px;
+
+    border-radius: 6px;
+
+    font-size: 10px;
+    letter-spacing: 2.5px;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,0.25);
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        border 0.2s ease;
+}
+
+.button:hover {
+    background: var(--papaya);
+    color: #080a0d;
+
+    border-color: var(--papaya);
+
+    transform: translateY(-2px);
+}
+
+
+/* MULTIPLE CHOICE */
+
+.answer,
+.fuel-option,
+.build-option-new {
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.025),
+            rgba(255,255,255,0.005)
+        ),
+        var(--panel);
+
+    border: 1px solid var(--border);
+
+    color: var(--text);
+
+    border-radius: 8px;
+
+    box-shadow:
+        0 6px 20px rgba(0,0,0,0.12);
+}
+
+
+.answer:hover,
+.fuel-option:hover,
+.build-option-new:hover {
+
+    background: var(--panel-soft);
+
+    border-color: rgba(255,158,69,0.65);
+
+    color: var(--text);
+
+    transform: translateY(-2px);
+}
+
+
+.fuel-option:hover span {
+    color: var(--muted);
+}
+
+
+/* SELECTED BUILD OPTION */
+
+.build-option-new.selected {
+
+    background: var(--papaya-soft);
+
+    border-color: var(--papaya);
+
+    box-shadow:
+        inset 0 0 0 1px rgba(255,158,69,0.10),
+        0 8px 25px rgba(0,0,0,0.20);
+}
+
+
+/* INFO PANELS */
+
+.race-info {
+
+    background: rgba(17,21,27,0.85);
+
+    border: 1px solid var(--border);
+
+    border-radius: 9px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 10px 35px rgba(0,0,0,0.18);
+}
+
+
+.race-info div {
+    border-color: var(--border);
+}
+
+
+.race-info span {
+    color: #69727f;
+}
+
+.race-info strong {
+    color: var(--text);
+}
+
+
+/* CAR PREVIEW */
+
+.car-preview-box {
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    background:
+        radial-gradient(
+            circle at 50% 48%,
+            rgba(255,158,69,0.07),
+            transparent 38%
+        ),
+        linear-gradient(
+            145deg,
+            #151a21,
+            #090c10
+        );
+
+    box-shadow:
+        0 25px 60px rgba(0,0,0,0.32);
+}
+
+
+.car-preview-box::before {
+    color: #626b77;
+}
+
+
+.car-preview-box::after {
+    color: var(--papaya);
+}
+
+
+/* PROGRESS BAR */
+
+.progress-track {
+
+    background: #181d24;
+
+    border-radius: 999px;
+
+    overflow: hidden;
+}
+
+#build-progress-bar {
+
+    background:
+        linear-gradient(
+            90deg,
+            #d9792e,
+            var(--papaya)
+        );
+
+    border-radius: 999px;
+}
+
+
+/* FINAL CONFIGURATION */
+
+.build-final {
+
+    background: rgba(17,21,27,0.9);
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,0.18);
+}
+
+
+.build-final-title {
+    color: var(--papaya);
+}
+
+
+.build-final-item {
+
+    background: var(--panel-soft);
+
+    border: 1px solid var(--border);
+
+    border-radius: 6px;
+}
+
+
+/* FEEDBACK */
+
+.perfect {
+    color: var(--success);
+}
+
+.danger {
+    color: var(--danger);
+}
+
+.warning {
+    color: var(--papaya);
+}
+
+
+/* REWARD */
+
+.reward {
+
+    color: var(--papaya);
+
+    padding: 10px 0;
+
+    letter-spacing: 2.5px;
+}
+
+
+/* DRIVER */
+
+.driver {
+    color: #66707c;
+}
+
+.driver strong {
+    color: var(--text);
+}
+
+
+/* BACKGROUND TRACK */
+
+.track {
+    border-color: rgba(255,255,255,0.035);
+}
+
+.track::before {
+    border-color: rgba(255,255,255,0.025);
+}
+
+
+/* BOTTOM TEXT */
+
+.bottom {
+    color: #464e59;
+}
     </style>
 </head>
 
@@ -853,6 +1252,8 @@ function completeRegistration() {
 }
 
 function goToLevel1() {
+    
+    localStorage.setItem("krissLevel", "1");
 
     document.querySelector(".screen").innerHTML = `
 
@@ -1048,6 +1449,8 @@ function startFuelLevel() {
     `;
 }
        function goToLevel2() {
+
+           localStorage.setItem("krissLevel", "2");
 
     document.querySelector(".screen").innerHTML = `
 
@@ -1716,6 +2119,8 @@ function showBuildResult() {
 
 function goToLevel3() {
 
+    localStorage.setItem("krissLevel", "3");
+
     document.querySelector(".screen").innerHTML = `
 
         <div class="top-line">
@@ -1959,6 +2364,8 @@ function completeTyreLevel() {
 
 function goToLevel4() {
 
+    localStorage.setItem("krissLevel", "4");
+
     document.querySelector(".screen").innerHTML = `
 
         <div class="top-line">
@@ -1995,6 +2402,27 @@ function goToLevel4() {
     `;
 
 }
+        window.addEventListener("load", function() {
+
+    const savedLevel = localStorage.getItem("krissLevel");
+
+    if (savedLevel === "1") {
+        goToLevel1();
+    }
+
+    else if (savedLevel === "2") {
+        goToLevel2();
+    }
+
+    else if (savedLevel === "3") {
+        goToLevel3();
+    }
+
+    else if (savedLevel === "4") {
+        goToLevel4();
+    }
+
+});
     </script>
 
 </body>
