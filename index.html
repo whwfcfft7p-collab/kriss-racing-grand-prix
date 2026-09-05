@@ -231,6 +231,147 @@
             }
 
         }
+                .race-info {
+            width: min(650px, 90%);
+            margin: 25px auto 35px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            border: 1px solid #222;
+            background: #101010;
+        }
+
+        .race-info div {
+            padding: 16px 10px;
+            border-right: 1px solid #222;
+        }
+
+        .race-info div:last-child {
+            border-right: none;
+        }
+
+        .race-info span {
+            display: block;
+            font-size: 8px;
+            letter-spacing: 2px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .race-info strong {
+            font-size: 15px;
+            letter-spacing: 1px;
+        }
+
+        #fuel-options {
+            width: min(650px, 90%);
+            margin: 30px auto 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .fuel-option {
+            padding: 20px;
+            border: 1px solid #333;
+            background: #111;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .fuel-option:hover {
+            border-color: #ff8700;
+            background: #ff8700;
+            color: #0b0b0b;
+            transform: translateY(-2px);
+        }
+
+        .fuel-option strong {
+            display: block;
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+
+        .fuel-option span {
+            font-size: 9px;
+            letter-spacing: 2px;
+            color: #777;
+        }
+
+        .fuel-option:hover span {
+            color: #0b0b0b;
+        }
+
+        #fuel-feedback {
+            min-height: 100px;
+            margin-top: 25px;
+        }
+
+        .fuel-result {
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .fuel-result small {
+            display: block;
+            margin-top: 10px;
+            color: #777;
+            font-size: 10px;
+            font-weight: normal;
+            letter-spacing: 1px;
+        }
+
+        .danger {
+            color: #ff4d4d;
+        }
+
+        .warning {
+            color: #ff8700;
+        }
+
+        .perfect {
+            color: #7cff7c;
+        }
+
+        .continue-button {
+            margin-top: 25px;
+        }
+
+        .reward {
+            margin-top: 35px;
+            color: #ff8700;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 3px;
+        }
+
+        .reward-text {
+            margin-top: 12px;
+            color: #666;
+            font-size: 11px;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 600px) {
+
+            .race-info {
+                grid-template-columns: 1fr;
+            }
+
+            .race-info div {
+                border-right: none;
+                border-bottom: 1px solid #222;
+            }
+
+            .race-info div:last-child {
+                border-bottom: none;
+            }
+
+            #fuel-options {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 
@@ -538,7 +679,198 @@ function goToLevel1() {
 }
 
 function startFuelLevel() {
-    alert("FUEL MANAGEMENT SYSTEM ONLINE");
+
+    document.querySelector(".screen").innerHTML = `
+
+        <div class="top-line">
+            <div>KRISS RACING TEAM</div>
+            <div>GRAND PRIX 2026</div>
+        </div>
+
+        <div class="registration">
+
+            <div class="level">
+                LEVEL 1 • FUEL MANAGEMENT
+            </div>
+
+            <div class="race-info">
+                <div>
+                    <span>LAPS</span>
+                    <strong>18</strong>
+                </div>
+
+                <div>
+                    <span>CONSUMPTION</span>
+                    <strong>2.4 L/LAP</strong>
+                </div>
+
+                <div>
+                    <span>REQUIRED</span>
+                    <strong>43.2 L</strong>
+                </div>
+            </div>
+
+            <h2>
+                CHOOSE YOUR<br>
+                <span>FUEL LOAD</span>
+            </h2>
+
+            <p class="intro">
+                Too little fuel = DNF.<br>
+                Too much fuel = unnecessary weight.
+            </p>
+
+            <div id="fuel-options">
+
+                <button class="fuel-option" onclick="checkFuel(30)">
+                    <strong>30 L</strong>
+                    <span>LIGHT LOAD</span>
+                </button>
+
+                <button class="fuel-option" onclick="checkFuel(43.2)">
+                    <strong>43.2 L</strong>
+                    <span>OPTIMAL LOAD</span>
+                </button>
+
+                <button class="fuel-option" onclick="checkFuel(50)">
+                    <strong>50 L</strong>
+                    <span>HEAVY LOAD</span>
+                </button>
+
+                <button class="fuel-option" onclick="checkFuel(60)">
+                    <strong>60 L</strong>
+                    <span>MAXIMUM LOAD</span>
+                </button>
+
+            </div>
+
+            <div id="fuel-feedback"></div>
+
+        </div>
+
+        <div class="bottom">
+            RACE CONTROL • LEVEL 01 • FUEL
+        </div>
+
+    `;
+}
+        function checkFuel(amount) {
+
+    const feedback = document.getElementById("fuel-feedback");
+
+    if (amount === 30) {
+
+        feedback.innerHTML = `
+            <div class="fuel-result danger">
+                ✕ FUEL DEPLETED
+                <small>Driver ran out of fuel before the finish.</small>
+            </div>
+        `;
+
+    } else if (amount === 43.2) {
+
+        feedback.innerHTML = `
+            <div class="fuel-result perfect">
+                ✓ OPTIMAL FUEL LOAD
+                <small>Perfect calculation. Maximum efficiency.</small>
+            </div>
+
+            <button class="button continue-button" onclick="completeFuelLevel()">
+                COMPLETE LEVEL
+            </button>
+        `;
+
+    } else {
+
+        feedback.innerHTML = `
+            <div class="fuel-result warning">
+                ⚠ HEAVY CAR
+                <small>You can finish the race, but you're carrying unnecessary weight.</small>
+            </div>
+        `;
+    }
+}
+        function completeFuelLevel() {
+
+    document.querySelector(".screen").innerHTML = `
+
+        <div class="top-line">
+            <div>KRISS RACING TEAM</div>
+            <div>LEVEL COMPLETE</div>
+        </div>
+
+        <div class="registration">
+
+            <div class="level">
+                LEVEL 1 • COMPLETE
+            </div>
+
+            <h2>
+                FUEL<br>
+                <span>OPTIMAL ✓</span>
+            </h2>
+
+            <p class="intro">
+                Perfect fuel strategy.<br>
+                The car is ready for the next challenge.
+            </p>
+
+            <div class="reward">
+                DRIVER REWARD UNLOCKED
+            </div>
+
+            <p class="reward-text">
+                Check your physical gifts.
+            </p>
+
+            <button class="button" onclick="goToLevel2()">
+                NEXT LEVEL
+            </button>
+
+        </div>
+
+        <div class="bottom">
+            RACE CONTROL • LEVEL 01 CLEARED
+        </div>
+
+    `;
+}
+        function goToLevel2() {
+
+    document.querySelector(".screen").innerHTML = `
+
+        <div class="top-line">
+            <div>KRISS RACING TEAM</div>
+            <div>GRAND PRIX 2026</div>
+        </div>
+
+        <div class="registration">
+
+            <div class="level">
+                LEVEL 2
+            </div>
+
+            <h2>
+                BUILD<br>
+                <span>YOUR CAR</span>
+            </h2>
+
+            <p class="intro">
+                Every driver needs the perfect machine.<br>
+                Configure yours.
+            </p>
+
+            <button class="button">
+                START LEVEL
+            </button>
+
+        </div>
+
+        <div class="bottom">
+            RACE CONTROL • LEVEL 02 • CAR CONFIGURATION
+        </div>
+
+    `;
 }
     </script>
 
