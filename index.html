@@ -175,11 +175,39 @@
 
     </main>
 
-    <script>
-        function enterPaddock() {
-            alert("Paddock access system coming online...");
-        }
-    </script>
+<script>
+    function enterPaddock() {
+        document.querySelector(".screen").innerHTML = `
+            <div class="top-line">
+                <div>KRISS RACING TEAM</div>
+                <div>DRIVER ACCESS</div>
+            </div>
+
+            <div class="registration">
+                <div class="level">LEVEL 0</div>
+
+                <h2>DRIVER<br><span>REGISTRATION</span></h2>
+
+                <p class="intro">
+                    Before entering the Grand Prix,<br>
+                    driver identity must be verified.
+                </p>
+
+                <button class="button" onclick="startRegistration()">
+                    BEGIN VERIFICATION
+                </button>
+            </div>
+
+            <div class="bottom">
+                RACE CONTROL • DRIVER ACCESS SYSTEM
+            </div>
+        `;
+    }
+
+    function startRegistration() {
+        alert("Verification system ready.");
+    }
+</script>
 
 </body>
 </html>
