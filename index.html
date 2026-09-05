@@ -584,34 +584,33 @@
         min-height: 270px;
     }
 }
-        /* =====================================
-   KRISS RACING — PREMIUM F1 REDESIGN
+/* =====================================
+   KRISS RACING — NIGHT RACE UI
    ===================================== */
 
 :root {
-    --bg: #0a0c10;
-    --panel: #11151b;
-    --panel-soft: #171c23;
-    --border: #2a3038;
+    --bg: #050812;
+    --panel: rgba(15, 23, 42, 0.72);
+    --panel2: rgba(22, 34, 57, 0.82);
+    --line: rgba(129, 230, 255, 0.18);
 
-    --text: #f4f6f8;
-    --muted: #8d96a3;
+    --text: #f5f8ff;
+    --muted: #8491a8;
 
-    --papaya: #ff9e45;
-    --papaya-soft: rgba(255, 158, 69, 0.10);
-
-    --success: #78d6a3;
-    --danger: #ff6b6b;
+    --blue: #4cc9ff;
+    --cyan: #76f7ff;
+    --lime: #b8ff6a;
+    --red: #ff5d73;
 }
 
 
-/* BODY */
+/* PAGE */
 
 body {
     background:
-        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.025), transparent 35%),
-        radial-gradient(circle at 80% 70%, rgba(255,158,69,0.035), transparent 30%),
-        var(--bg);
+        radial-gradient(circle at 15% 20%, rgba(76,201,255,0.14), transparent 30%),
+        radial-gradient(circle at 85% 75%, rgba(70,90,255,0.13), transparent 32%),
+        linear-gradient(135deg, #050812 0%, #080d19 45%, #060a12 100%);
 
     color: var(--text);
 
@@ -627,361 +626,451 @@ body {
 }
 
 
-/* MAIN SCREEN */
+/* MOVING GRID */
+
+body::before {
+    content: "";
+
+    position: fixed;
+    inset: 0;
+
+    pointer-events: none;
+
+    background-image:
+        linear-gradient(rgba(118,247,255,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(118,247,255,0.035) 1px, transparent 1px);
+
+    background-size: 55px 55px;
+
+    mask-image:
+        linear-gradient(to bottom, transparent, black 25%, black 75%, transparent);
+
+    animation: telemetryGrid 12s linear infinite;
+}
+
+@keyframes telemetryGrid {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(55px);
+    }
+}
+
+
+/* SCREEN */
 
 .screen {
-    padding: 90px 30px 70px;
+    padding: 95px 30px 80px;
 }
 
 
-/* TOP BAR */
+/* TOP TELEMETRY BAR */
 
 .top-line {
-    top: 28px;
+    top: 24px;
 
-    padding-bottom: 15px;
+    padding: 13px 18px;
 
-    border-bottom: 1px solid rgba(255,255,255,0.08);
+    background: rgba(7,12,22,0.72);
 
-    color: #727b87;
+    backdrop-filter: blur(15px);
 
-    font-size: 10px;
-    letter-spacing: 2.5px;
+    border: 1px solid var(--line);
+
+    color: #91a1bb;
+
+    font-size: 9px;
+    letter-spacing: 3px;
+
+    left: 30px;
+    right: 30px;
+
+    clip-path:
+        polygon(
+            10px 0,
+            100% 0,
+            100% calc(100% - 10px),
+            calc(100% - 10px) 100%,
+            0 100%,
+            0 10px
+        );
 }
 
 
-/* TEAM */
+/* LEVEL TAG */
 
-.team {
-    color: var(--muted);
+.level {
+    display: inline-block;
 
-    font-size: 11px;
-    letter-spacing: 5px;
+    padding: 8px 16px;
 
-    margin-bottom: 22px;
+    margin-bottom: 25px;
+
+    border: 1px solid rgba(76,201,255,0.45);
+
+    background: rgba(76,201,255,0.07);
+
+    color: var(--cyan);
+
+    font-size: 9px;
+    letter-spacing: 4px;
+
+    clip-path:
+        polygon(
+            8px 0,
+            100% 0,
+            100% calc(100% - 8px),
+            calc(100% - 8px) 100%,
+            0 100%,
+            0 8px
+        );
 }
 
 
-/* BIG TITLES */
+/* TITLES */
 
 h1,
 h2 {
-    color: var(--text);
+    color: white;
+
+    text-shadow:
+        0 0 35px rgba(76,201,255,0.08);
 }
 
 h1 {
     letter-spacing: -6px;
 }
 
-h2 {
-    letter-spacing: -3px;
-}
-
-
-/* PAPAYA ONLY AS ACCENT */
-
 h1 span,
 h2 span {
-    color: var(--papaya);
+    color: var(--cyan);
+
+    text-shadow:
+        0 0 25px rgba(118,247,255,0.20);
 }
 
 
-/* LEVEL LABEL */
+/* TEAM */
 
-.level {
-    display: inline-block;
-
-    color: var(--papaya);
-
-    background: var(--papaya-soft);
-
-    border: 1px solid rgba(255,158,69,0.25);
-
-    padding: 8px 14px;
-
-    border-radius: 999px;
-
-    font-size: 9px;
-    letter-spacing: 3px;
-
-    margin-bottom: 28px;
+.team {
+    color: #8191ab;
 }
 
 
-/* SUBTITLE / INTRO */
+/* TEXT */
 
 .subtitle,
 .intro {
-    color: var(--muted);
+    color: #94a1b6;
 }
 
 
 /* MAIN BUTTON */
 
 .button {
-    border: 1px solid rgba(255,255,255,0.18);
+    position: relative;
 
-    background: var(--text);
+    border: 1px solid rgba(118,247,255,0.55);
 
-    color: #080a0d;
+    background:
+        linear-gradient(
+            110deg,
+            rgba(76,201,255,0.14),
+            rgba(76,201,255,0.03)
+        );
 
-    padding: 17px 35px;
+    color: white;
 
-    border-radius: 6px;
+    padding: 17px 40px;
 
     font-size: 10px;
-    letter-spacing: 2.5px;
+    letter-spacing: 3px;
+
+    clip-path:
+        polygon(
+            12px 0,
+            100% 0,
+            100% calc(100% - 12px),
+            calc(100% - 12px) 100%,
+            0 100%,
+            0 12px
+        );
 
     box-shadow:
-        0 10px 30px rgba(0,0,0,0.25);
+        0 0 30px rgba(76,201,255,0.07);
 
-    transition:
-        transform 0.2s ease,
-        background 0.2s ease,
-        border 0.2s ease;
+    transition: 0.2s ease;
 }
 
 .button:hover {
-    background: var(--papaya);
-    color: #080a0d;
+    background: var(--cyan);
 
-    border-color: var(--papaya);
+    color: #02060c;
 
-    transform: translateY(-2px);
+    border-color: var(--cyan);
+
+    box-shadow:
+        0 0 30px rgba(118,247,255,0.25);
+
+    transform: translateY(-3px);
 }
 
 
-/* MULTIPLE CHOICE */
+/* ANSWERS / OPTIONS */
 
 .answer,
 .fuel-option,
 .build-option-new {
+    position: relative;
 
     background:
         linear-gradient(
-            145deg,
-            rgba(255,255,255,0.025),
-            rgba(255,255,255,0.005)
-        ),
-        var(--panel);
+            135deg,
+            rgba(22,34,57,0.86),
+            rgba(9,16,29,0.92)
+        );
 
-    border: 1px solid var(--border);
+    border: 1px solid rgba(129,230,255,0.15);
 
-    color: var(--text);
+    color: white;
 
-    border-radius: 8px;
+    border-radius: 0;
+
+    clip-path:
+        polygon(
+            10px 0,
+            100% 0,
+            100% calc(100% - 10px),
+            calc(100% - 10px) 100%,
+            0 100%,
+            0 10px
+        );
 
     box-shadow:
-        0 6px 20px rgba(0,0,0,0.12);
+        inset 0 1px 0 rgba(255,255,255,0.03),
+        0 12px 25px rgba(0,0,0,0.20);
 }
-
 
 .answer:hover,
 .fuel-option:hover,
 .build-option-new:hover {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(38,78,110,0.72),
+            rgba(14,25,44,0.95)
+        );
 
-    background: var(--panel-soft);
+    border-color: var(--cyan);
 
-    border-color: rgba(255,158,69,0.65);
+    color: white;
 
-    color: var(--text);
+    transform: translateY(-3px);
 
-    transform: translateY(-2px);
+    box-shadow:
+        0 0 22px rgba(76,201,255,0.10);
 }
 
 
 .fuel-option:hover span {
-    color: var(--muted);
+    color: var(--cyan);
 }
 
 
-/* SELECTED BUILD OPTION */
+/* SELECTED */
 
 .build-option-new.selected {
+    border-color: var(--cyan);
 
-    background: var(--papaya-soft);
-
-    border-color: var(--papaya);
+    background:
+        linear-gradient(
+            135deg,
+            rgba(76,201,255,0.20),
+            rgba(14,24,40,0.95)
+        );
 
     box-shadow:
-        inset 0 0 0 1px rgba(255,158,69,0.10),
-        0 8px 25px rgba(0,0,0,0.20);
+        0 0 25px rgba(76,201,255,0.10);
 }
 
 
-/* INFO PANELS */
+/* INFO TELEMETRY */
 
 .race-info {
+    background: var(--panel);
 
-    background: rgba(17,21,27,0.85);
+    backdrop-filter: blur(16px);
 
-    border: 1px solid var(--border);
-
-    border-radius: 9px;
+    border: 1px solid var(--line);
 
     overflow: hidden;
 
-    box-shadow:
-        0 10px 35px rgba(0,0,0,0.18);
+    clip-path:
+        polygon(
+            12px 0,
+            100% 0,
+            100% calc(100% - 12px),
+            calc(100% - 12px) 100%,
+            0 100%,
+            0 12px
+        );
 }
-
 
 .race-info div {
-    border-color: var(--border);
+    border-color: rgba(129,230,255,0.10);
 }
 
-
 .race-info span {
-    color: #69727f;
+    color: #65728a;
 }
 
 .race-info strong {
-    color: var(--text);
+    color: white;
 }
 
 
-/* CAR PREVIEW */
+/* CAR BOX */
 
 .car-preview-box {
+    border: 1px solid rgba(118,247,255,0.18);
 
-    border: 1px solid var(--border);
-
-    border-radius: 12px;
+    border-radius: 0;
 
     background:
-        radial-gradient(
-            circle at 50% 48%,
-            rgba(255,158,69,0.07),
-            transparent 38%
-        ),
-        linear-gradient(
-            145deg,
-            #151a21,
-            #090c10
+        radial-gradient(circle at 50% 55%, rgba(76,201,255,0.12), transparent 40%),
+        linear-gradient(145deg, #101827, #060a11);
+
+    clip-path:
+        polygon(
+            16px 0,
+            100% 0,
+            100% calc(100% - 16px),
+            calc(100% - 16px) 100%,
+            0 100%,
+            0 16px
         );
 
     box-shadow:
-        0 25px 60px rgba(0,0,0,0.32);
+        0 30px 80px rgba(0,0,0,0.38);
 }
-
 
 .car-preview-box::before {
-    color: #626b77;
+    color: #70829c;
 }
-
 
 .car-preview-box::after {
-    color: var(--papaya);
+    color: var(--cyan);
 }
 
 
-/* PROGRESS BAR */
+/* PROGRESS */
 
 .progress-track {
+    background: #111a28;
 
-    background: #181d24;
+    border: 1px solid rgba(129,230,255,0.08);
 
-    border-radius: 999px;
-
-    overflow: hidden;
+    height: 5px;
 }
 
 #build-progress-bar {
-
     background:
         linear-gradient(
             90deg,
-            #d9792e,
-            var(--papaya)
+            #3a8fff,
+            var(--cyan)
         );
 
-    border-radius: 999px;
+    box-shadow:
+        0 0 12px rgba(118,247,255,0.35);
 }
 
 
-/* FINAL CONFIGURATION */
+/* RESULT PANEL */
 
 .build-final {
+    background: var(--panel);
 
-    background: rgba(17,21,27,0.9);
+    border: 1px solid var(--line);
 
-    border: 1px solid var(--border);
-
-    border-radius: 10px;
-
-    box-shadow:
-        0 15px 35px rgba(0,0,0,0.18);
+    clip-path:
+        polygon(
+            12px 0,
+            100% 0,
+            100% calc(100% - 12px),
+            calc(100% - 12px) 100%,
+            0 100%,
+            0 12px
+        );
 }
-
 
 .build-final-title {
-    color: var(--papaya);
+    color: var(--cyan);
 }
 
-
 .build-final-item {
+    background: rgba(12,20,34,0.8);
 
-    background: var(--panel-soft);
-
-    border: 1px solid var(--border);
-
-    border-radius: 6px;
+    border: 1px solid rgba(129,230,255,0.11);
 }
 
 
 /* FEEDBACK */
 
 .perfect {
-    color: var(--success);
+    color: var(--lime);
 }
 
 .danger {
-    color: var(--danger);
+    color: var(--red);
 }
 
 .warning {
-    color: var(--papaya);
+    color: #ffd36c;
 }
 
 
 /* REWARD */
 
 .reward {
+    color: var(--lime);
 
-    color: var(--papaya);
-
-    padding: 10px 0;
-
-    letter-spacing: 2.5px;
+    text-shadow:
+        0 0 18px rgba(184,255,106,0.16);
 }
 
 
 /* DRIVER */
 
 .driver {
-    color: #66707c;
+    color: #68768c;
 }
 
 .driver strong {
-    color: var(--text);
+    color: white;
 }
 
 
-/* BACKGROUND TRACK */
+/* TRACK DECORATION */
 
 .track {
-    border-color: rgba(255,255,255,0.035);
+    border-color: rgba(118,247,255,0.05);
+
+    box-shadow:
+        0 0 80px rgba(76,201,255,0.025);
 }
 
 .track::before {
-    border-color: rgba(255,255,255,0.025);
+    border-color: rgba(118,247,255,0.035);
 }
 
 
-/* BOTTOM TEXT */
+/* BOTTOM */
 
 .bottom {
-    color: #464e59;
+    color: #48566d;
 }
     </style>
 </head>
