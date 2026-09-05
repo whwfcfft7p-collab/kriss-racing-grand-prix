@@ -835,7 +835,7 @@ function startFuelLevel() {
 
     `;
 }
-        function goToLevel2() {
+       function goToLevel2() {
 
     document.querySelector(".screen").innerHTML = `
 
@@ -847,7 +847,7 @@ function startFuelLevel() {
         <div class="registration">
 
             <div class="level">
-                LEVEL 2
+                LEVEL 2 • CAR CONFIGURATION
             </div>
 
             <h2>
@@ -857,7 +857,475 @@ function startFuelLevel() {
 
             <p class="intro">
                 Every driver needs the perfect machine.<br>
-                Configure yours.
+                Choose your configuration carefully.
+            </p>
+
+            <div class="build-progress">
+                <span id="build-step">1 / 6</span>
+                <div class="progress-track">
+                    <div id="build-progress-bar"></div>
+                </div>
+            </div>
+
+            <div id="build-content"></div>
+
+            <div id="build-feedback"></div>
+
+        </div>
+
+        <div class="bottom">
+            RACE CONTROL • LEVEL 02 • CAR CONFIGURATION
+        </div>
+
+    `;
+
+    currentBuildStep = 0;
+    buildChoices = [];
+
+    showBuildStep();
+}
+
+
+let currentBuildStep = 0;
+let buildChoices = [];
+
+
+const buildOptions = [
+
+    {
+        name: "ENGINE",
+        question: "Choose your engine.",
+        options: [
+            {
+                name: "1.6L I4",
+                description: "RELIABLE",
+                power: 1,
+                handling: 3,
+                braking: 2,
+                aero: 2,
+                style: 2
+            },
+            {
+                name: "2.0L TURBO I4",
+                description: "BALANCED",
+                power: 3,
+                handling: 3,
+                braking: 2,
+                aero: 2,
+                style: 3
+            },
+            {
+                name: "3.0L V6",
+                description: "POWERFUL",
+                power: 4,
+                handling: 2,
+                braking: 3,
+                aero: 2,
+                style: 4
+            },
+            {
+                name: "4.0L V8",
+                description: "INSANE",
+                power: 5,
+                handling: 2,
+                braking: 3,
+                aero: 2,
+                style: 5
+            }
+        ]
+    },
+
+    {
+        name: "WHEELS",
+        question: "Choose your wheels.",
+        options: [
+            {
+                name: "STREET",
+                description: "EVERYDAY",
+                power: 1,
+                handling: 2,
+                braking: 1,
+                aero: 1,
+                style: 2
+            },
+            {
+                name: "SPORT",
+                description: "FAST",
+                power: 1,
+                handling: 3,
+                braking: 2,
+                aero: 1,
+                style: 3
+            },
+            {
+                name: "RACING",
+                description: "TRACK READY",
+                power: 1,
+                handling: 4,
+                braking: 3,
+                aero: 2,
+                style: 4
+            },
+            {
+                name: "SLICKS",
+                description: "MAXIMUM GRIP",
+                power: 1,
+                handling: 5,
+                braking: 4,
+                aero: 2,
+                style: 5
+            }
+        ]
+    },
+
+    {
+        name: "BRAKES",
+        question: "Choose your brakes.",
+        options: [
+            {
+                name: "STANDARD",
+                description: "BASIC",
+                power: 0,
+                handling: 1,
+                braking: 2,
+                aero: 0,
+                style: 1
+            },
+            {
+                name: "PERFORMANCE",
+                description: "UPGRADED",
+                power: 0,
+                handling: 2,
+                braking: 4,
+                aero: 0,
+                style: 2
+            },
+            {
+                name: "CARBON CERAMIC",
+                description: "RACE SPEC",
+                power: 0,
+                handling: 3,
+                braking: 5,
+                aero: 0,
+                style: 4
+            }
+        ]
+    },
+
+    {
+        name: "SUSPENSION",
+        question: "Choose your suspension.",
+        options: [
+            {
+                name: "COMFORT",
+                description: "SMOOTH",
+                power: 0,
+                handling: 1,
+                braking: 1,
+                aero: 0,
+                style: 1
+            },
+            {
+                name: "SPORT",
+                description: "BALANCED",
+                power: 0,
+                handling: 3,
+                braking: 2,
+                aero: 1,
+                style: 3
+            },
+            {
+                name: "TRACK",
+                description: "NO COMPROMISE",
+                power: 0,
+                handling: 5,
+                braking: 3,
+                aero: 2,
+                style: 4
+            }
+        ]
+    },
+
+    {
+        name: "AERO",
+        question: "Choose your aerodynamic setup.",
+        options: [
+            {
+                name: "STANDARD",
+                description: "LOW DRAG",
+                power: 2,
+                handling: 1,
+                braking: 1,
+                aero: 1,
+                style: 1
+            },
+            {
+                name: "SPORT",
+                description: "BALANCED",
+                power: 1,
+                handling: 3,
+                braking: 2,
+                aero: 3,
+                style: 3
+            },
+            {
+                name: "MAX DOWNFORCE",
+                description: "FULL ATTACK",
+                power: 0,
+                handling: 5,
+                braking: 4,
+                aero: 5,
+                style: 5
+            }
+        ]
+    },
+
+    {
+        name: "PAINT",
+        question: "Choose your team colors.",
+        options: [
+            {
+                name: "PAPAYA",
+                description: "KRISS RACING",
+                power: 0,
+                handling: 0,
+                braking: 0,
+                aero: 0,
+                style: 5
+            },
+            {
+                name: "BLACK",
+                description: "STEALTH",
+                power: 0,
+                handling: 0,
+                braking: 0,
+                aero: 0,
+                style: 5
+            },
+            {
+                name: "WHITE",
+                description: "CLEAN",
+                power: 0,
+                handling: 0,
+                braking: 0,
+                aero: 0,
+                style: 4
+            },
+            {
+                name: "KRISS SPECIAL",
+                description: "ONE OF ONE",
+                power: 0,
+                handling: 1,
+                braking: 1,
+                aero: 1,
+                style: 10
+            }
+        ]
+    }
+
+];
+
+
+function showBuildStep() {
+
+    const step = buildOptions[currentBuildStep];
+
+    document.getElementById("build-step").innerHTML =
+        (currentBuildStep + 1) + " / " + buildOptions.length;
+
+    document.getElementById("build-progress-bar").style.width =
+        ((currentBuildStep + 1) / buildOptions.length * 100) + "%";
+
+    document.getElementById("build-content").innerHTML = `
+
+        <div class="build-category">
+            ${step.name}
+        </div>
+
+        <h3 class="build-question">
+            ${step.question}
+        </h3>
+
+        <div class="build-options">
+
+            ${step.options.map((option, index) => `
+
+                <button
+                    class="build-option"
+                    onclick="selectBuildOption(${index})"
+                >
+
+                    <strong>${option.name}</strong>
+
+                    <span>${option.description}</span>
+
+                </button>
+
+            `).join("")}
+
+        </div>
+
+    `;
+
+    document.getElementById("build-feedback").innerHTML = "";
+}
+
+
+function selectBuildOption(index) {
+
+    const selected = buildOptions[currentBuildStep].options[index];
+
+    buildChoices[currentBuildStep] = selected;
+
+    currentBuildStep++;
+
+    if (currentBuildStep < buildOptions.length) {
+
+        showBuildStep();
+
+    } else {
+
+        showBuildResult();
+
+    }
+}
+
+
+function showBuildResult() {
+
+    let power = 0;
+    let handling = 0;
+    let braking = 0;
+    let aero = 0;
+    let style = 0;
+
+    buildChoices.forEach(choice => {
+
+        power += choice.power;
+        handling += choice.handling;
+        braking += choice.braking;
+        aero += choice.aero;
+        style += choice.style;
+
+    });
+
+    power = Math.min(power, 10);
+    handling = Math.min(handling, 10);
+    braking = Math.min(braking, 10);
+    aero = Math.min(aero, 10);
+    style = Math.min(style, 10);
+
+    document.querySelector(".screen").innerHTML = `
+
+        <div class="top-line">
+            <div>KRISS RACING TEAM</div>
+            <div>BUILD COMPLETE</div>
+        </div>
+
+        <div class="registration">
+
+            <div class="level">
+                LEVEL 2 • BUILD COMPLETE
+            </div>
+
+            <h2>
+                YOUR CAR<br>
+                <span>IS READY ✓</span>
+            </h2>
+
+            <div class="car-name">
+                KRISS RACING MACHINE #01
+            </div>
+
+            <div class="stats">
+
+                <div class="stat">
+                    <span>POWER</span>
+                    <div class="stat-bar">
+                        <div style="width:${power * 10}%"></div>
+                    </div>
+                    <strong>${power}/10</strong>
+                </div>
+
+                <div class="stat">
+                    <span>HANDLING</span>
+                    <div class="stat-bar">
+                        <div style="width:${handling * 10}%"></div>
+                    </div>
+                    <strong>${handling}/10</strong>
+                </div>
+
+                <div class="stat">
+                    <span>BRAKING</span>
+                    <div class="stat-bar">
+                        <div style="width:${braking * 10}%"></div>
+                    </div>
+                    <strong>${braking}/10</strong>
+                </div>
+
+                <div class="stat">
+                    <span>AERO</span>
+                    <div class="stat-bar">
+                        <div style="width:${aero * 10}%"></div>
+                    </div>
+                    <strong>${aero}/10</strong>
+                </div>
+
+                <div class="stat">
+                    <span>STYLE</span>
+                    <div class="stat-bar">
+                        <div style="width:${style * 10}%"></div>
+                    </div>
+                    <strong>${style}/10</strong>
+                </div>
+
+            </div>
+
+            <div class="reward">
+                DRIVER REWARD UNLOCKED
+            </div>
+
+            <p class="reward-text">
+                Your personalized keychain is ready.
+            </p>
+
+            <button class="button" onclick="goToLevel3()">
+                NEXT LEVEL
+            </button>
+
+        </div>
+
+        <div class="bottom">
+            RACE CONTROL • LEVEL 02 CLEARED
+        </div>
+
+    `;
+}
+
+
+function goToLevel3() {
+
+    document.querySelector(".screen").innerHTML = `
+
+        <div class="top-line">
+            <div>KRISS RACING TEAM</div>
+            <div>GRAND PRIX 2026</div>
+        </div>
+
+        <div class="registration">
+
+            <div class="level">
+                LEVEL 3
+            </div>
+
+            <h2>
+                TYRE<br>
+                <span>STRATEGY</span>
+            </h2>
+
+            <p class="intro">
+                Weather is changing.<br>
+                Choose the right tyres for the conditions.
             </p>
 
             <button class="button">
@@ -867,7 +1335,7 @@ function startFuelLevel() {
         </div>
 
         <div class="bottom">
-            RACE CONTROL • LEVEL 02 • CAR CONFIGURATION
+            RACE CONTROL • LEVEL 03 • TYRES
         </div>
 
     `;
