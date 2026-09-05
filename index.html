@@ -2513,6 +2513,9 @@ function goToLevel4() {
 else if (savedLevel === "5") {
     goToLevel5();
 }
+            else if (savedLevel === "6") {
+    goToLevel6();
+}
 });
         function resetGame() {
     location.reload();
@@ -2760,6 +2763,518 @@ function goToLevel5() {
                 Investigate the evidence.
             </p>
 
+        <button class="button" onclick="startCrimeScene()">
+    START INVESTIGATION
+</button>
+
+        </div>
+
+        <div class="bottom">
+            RACE CONTROL • LEVEL 05 • INVESTIGATION
+        </div>
+
+    `;
+}
+        /* =========================================
+   LEVEL 5 - PADDOCK CRIME SCENE
+   ========================================= */
+
+let evidenceOpened = [];
+
+const evidenceData = {
+
+    cctv: {
+        title: "CCTV FOOTAGE",
+        code: "CAM 04 • 22:43",
+        text: "A figure entered Garage 01 wearing a KRISS Racing crew jacket. The face is not visible, but the person is carrying a RED access card."
+    },
+
+    access: {
+        title: "ACCESS LOG",
+        code: "SECURITY SYSTEM",
+        text: "At 22:41, a RED access card registered to ALEX was used to unlock the paddock service entrance."
+    },
+
+    fingerprint: {
+        title: "FINGERPRINT",
+        code: "EVIDENCE #03",
+        text: "A partial fingerprint was recovered from the empty key cabinet. Security database match: ALEX."
+    },
+
+    radio: {
+        title: "RADIO RECORDING",
+        code: "CHANNEL 07 • 22:39",
+        text: "\"I'm going to Garage 01. Race Control asked me to check something before we leave.\" The voice has been identified as ALEX."
+    }
+};
+
+
+function startCrimeScene() {
+
+    evidenceOpened = [];
+
+    document.querySelector(".screen").innerHTML = `
+
+        <div class="top-line">
+            <div>KRISS RACING • SECURITY DIVISION</div>
+            <div>CLASSIFIED</div>
+        </div>
+
+        <div class="registration">
+
+            <div class="level">
+                CASE #005
+            </div>
+
+            <h2>
+                PADDOCK<br>
+                <span>BREACH</span>
+            </h2>
+
+            <div class="race-info">
+
+                <div>
+                    <span>INCIDENT</span>
+                    <strong>22:47</strong>
+                </div>
+
+                <div>
+                    <span>LOCATION</span>
+                    <strong>GARAGE 01</strong>
+                </div>
+
+                <div>
+                    <span>STATUS</span>
+                    <strong>UNSOLVED</strong>
+                </div>
+
+            </div>
+
+            <p class="intro">
+                The driver's race car key has disappeared
+                minutes before the next session.
+                <br><br>
+                Four people were inside the paddock.
+                Someone is lying.
+                <br><br>
+                Investigate all evidence before making an accusation.
+            </p>
+
+            <button class="button" onclick="showEvidenceBoard()">
+                ENTER CRIME SCENE
+            </button>
+
+        </div>
+
+        <div class="bottom">
+            PADDOCK SECURITY • RESTRICTED ACCESS
+        </div>
+
+    `;
+}
+        function showEvidenceBoard() {
+
+    document.querySelector(".screen").innerHTML = `
+
+        <div class="top-line">
+            <div>CASE #005</div>
+            <div>EVIDENCE DATABASE</div>
+        </div>
+
+        <div class="registration">
+
+            <div class="level">
+                INVESTIGATION
+            </div>
+
+            <h2>
+                EVIDENCE<br>
+                <span>BOARD</span>
+            </h2>
+
+            <p class="intro">
+                Open every piece of evidence.
+            </p>
+
+            <div id="fuel-options">
+
+                <button class="fuel-option"
+                    id="evidence-cctv"
+                    onclick="inspectEvidence('cctv')">
+
+                    <strong>01 • CCTV FOOTAGE</strong>
+                    <span>CAMERA 04</span>
+
+                </button>
+
+
+                <button class="fuel-option"
+                    id="evidence-access"
+                    onclick="inspectEvidence('access')">
+
+                    <strong>02 • ACCESS LOG</strong>
+                    <span>PADDOCK SECURITY</span>
+
+                </button>
+
+
+                <button class="fuel-option"
+                    id="evidence-fingerprint"
+                    onclick="inspectEvidence('fingerprint')">
+
+                    <strong>03 • FINGERPRINT</strong>
+                    <span>KEY CABINET</span>
+
+                </button>
+
+
+                <button class="fuel-option"
+                    id="evidence-radio"
+                    onclick="inspectEvidence('radio')">
+
+                    <strong>04 • RADIO RECORDING</strong>
+                    <span>CHANNEL 07</span>
+
+                </button>
+
+            </div>
+
+            <div id="evidence-display"
+                style="margin-top:30px;">
+            </div>
+
+            <div id="suspect-unlock"
+                style="margin-top:25px;">
+            </div>
+
+        </div>
+
+        <div class="bottom">
+            EVIDENCE FOUND •
+            <span id="evidence-count">${evidenceOpened.length}</span>/4
+        </div>
+
+    `;
+
+    restoreEvidenceState();
+}
+
+
+function inspectEvidence(type) {
+
+    const evidence = evidenceData[type];
+
+    if (!evidenceOpened.includes(type)) {
+        evidenceOpened.push(type);
+    }
+
+    document.getElementById("evidence-display").innerHTML = `
+
+        <div class="build-final">
+
+            <div class="build-final-title">
+                ${evidence.title}
+            </div>
+
+            <div class="build-final-item">
+                ${evidence.code}
+            </div>
+
+            <p class="intro"
+                style="margin-top:20px;">
+
+                ${evidence.text}
+
+            </p>
+
+        </div>
+
+    `;
+
+    restoreEvidenceState();
+}
+
+
+function restoreEvidenceState() {
+
+    evidenceOpened.forEach(type => {
+
+        const button =
+            document.getElementById("evidence-" + type);
+
+        if (button) {
+
+            button.style.borderColor = "var(--lime)";
+            button.style.opacity = "0.65";
+
+        }
+
+    });
+
+    const count =
+        document.getElementById("evidence-count");
+
+    if (count) {
+        count.textContent = evidenceOpened.length;
+    }
+
+
+    if (evidenceOpened.length === 4) {
+
+        document.getElementById("suspect-unlock").innerHTML = `
+
+            <div class="fuel-result perfect">
+                ✓ ALL EVIDENCE COLLECTED
+                <small>
+                    Suspect database unlocked.
+                </small>
+            </div>
+
+            <button class="button"
+                style="margin-top:25px;"
+                onclick="showSuspects()">
+
+                REVIEW SUSPECTS
+
+            </button>
+
+        `;
+    }
+}
+        function showSuspects() {
+
+    document.querySelector(".screen").innerHTML = `
+
+        <div class="top-line">
+            <div>CASE #005</div>
+            <div>SUSPECT DATABASE</div>
+        </div>
+
+        <div class="registration">
+
+            <div class="level">
+                FINAL INVESTIGATION
+            </div>
+
+            <h2>
+                IDENTIFY<br>
+                <span>THE SUSPECT</span>
+            </h2>
+
+            <p class="intro">
+                Compare the statements with the evidence.
+                <br>
+                Who took the driver's key?
+            </p>
+
+
+            <div id="fuel-options">
+
+                <button class="fuel-option"
+                    onclick="accuseSuspect('MARC')">
+
+                    <strong>MARC</strong>
+                    <span>
+                        "I was changing tyres in Garage 02."
+                    </span>
+
+                </button>
+
+
+                <button class="fuel-option"
+                    onclick="accuseSuspect('SOFIA')">
+
+                    <strong>SOFIA</strong>
+                    <span>
+                        "I left the paddock at 22:30."
+                    </span>
+
+                </button>
+
+
+                <button class="fuel-option"
+                    onclick="accuseSuspect('ALEX')">
+
+                    <strong>ALEX</strong>
+                    <span>
+                        "I never entered Garage 01 tonight."
+                    </span>
+
+                </button>
+
+
+                <button class="fuel-option"
+                    onclick="accuseSuspect('DANIEL')">
+
+                    <strong>DANIEL</strong>
+                    <span>
+                        "I was with Race Control all evening."
+                    </span>
+
+                </button>
+
+            </div>
+
+            <div id="accusation-feedback"
+                style="margin-top:30px;">
+            </div>
+
+        </div>
+
+        <div class="bottom">
+            PADDOCK SECURITY • FINAL DECISION
+        </div>
+
+    `;
+}
+
+
+function accuseSuspect(name) {
+
+    const feedback =
+        document.getElementById("accusation-feedback");
+
+    if (name === "ALEX") {
+
+        feedback.innerHTML = `
+
+            <div class="fuel-result perfect">
+
+                ✓ SUSPECT IDENTIFIED
+
+                <small>
+                    Evidence confirms the accusation.
+                </small>
+
+            </div>
+
+        `;
+
+        setTimeout(() => {
+            solveCrimeScene();
+        }, 1200);
+
+    }
+
+    else {
+
+        feedback.innerHTML = `
+
+            <div class="fuel-result danger">
+
+                ✕ ACCUSATION REJECTED
+
+                <small>
+                    The evidence does not support this conclusion.
+                    Try again.
+                </small>
+
+            </div>
+
+        `;
+    }
+}
+        function solveCrimeScene() {
+
+    document.querySelector(".screen").innerHTML = `
+
+        <div class="top-line">
+            <div>KRISS RACING SECURITY</div>
+            <div>CASE CLOSED</div>
+        </div>
+
+        <div class="registration">
+
+            <div class="level">
+                LEVEL 5 • COMPLETE
+            </div>
+
+            <h2>
+                CASE<br>
+                <span>CLOSED ✓</span>
+            </h2>
+
+            <p class="intro">
+                Alex's statement was false.
+                <br><br>
+
+                His access card opened the paddock entrance.
+                His fingerprint was found on the cabinet.
+                CCTV placed him inside Garage 01.
+                His radio transmission confirmed his destination.
+                <br><br>
+
+                The missing race key has been recovered.
+            </p>
+
+            <div class="race-info">
+
+                <div>
+                    <span>SUSPECT</span>
+                    <strong>ALEX</strong>
+                </div>
+
+                <div>
+                    <span>KEY</span>
+                    <strong>RECOVERED</strong>
+                </div>
+
+                <div>
+                    <span>CASE</span>
+                    <strong>CLOSED</strong>
+                </div>
+
+            </div>
+
+            <div class="reward">
+                INVESTIGATION COMPLETE ✓
+            </div>
+
+            <button class="button"
+                onclick="goToLevel6()">
+
+                RETURN TO GRAND PRIX
+
+            </button>
+
+        </div>
+
+        <div class="bottom">
+            CASE #005 • CLOSED
+        </div>
+
+    `;
+}
+
+
+function goToLevel6() {
+
+    localStorage.setItem("krissLevel", "6");
+
+    document.querySelector(".screen").innerHTML = `
+
+        <div class="top-line">
+            <div>KRISS RACING TEAM</div>
+            <div>GRAND PRIX 2026</div>
+        </div>
+
+        <div class="registration">
+
+            <div class="level">
+                LEVEL 6
+            </div>
+
+            <h2>
+                CAR<br>
+                <span>ESSENTIALS</span>
+            </h2>
+
+            <p class="intro">
+                A prepared driver is a fast driver.
+                <br>
+                Build the perfect road kit.
+            </p>
+
             <button class="button">
                 START LEVEL
             </button>
@@ -2767,7 +3282,7 @@ function goToLevel5() {
         </div>
 
         <div class="bottom">
-            RACE CONTROL • LEVEL 05 • INVESTIGATION
+            RACE CONTROL • LEVEL 06 • ESSENTIALS
         </div>
 
     `;
