@@ -2478,9 +2478,9 @@ function goToLevel4() {
                 Prepare for the next challenge.
             </p>
 
-            <button class="button">
-                START LEVEL
-            </button>
+         <button class="button" onclick="startPitStop()">
+    START LEVEL
+</button>
 
         </div>
 
@@ -2510,7 +2510,9 @@ function goToLevel4() {
     else if (savedLevel === "4") {
         goToLevel4();
     }
-
+else if (savedLevel === "5") {
+    goToLevel5();
+}
 });
         function resetGame() {
     location.reload();
@@ -2529,6 +2531,247 @@ document.addEventListener("keydown", function(event) {
     }
 
 });
+        /* =========================================
+   LEVEL 4 - PIT STOP
+   ========================================= */
+
+let pitStep = 0;
+
+const correctPitOrder = [
+    "NUT_OFF",
+    "TYRE_OFF",
+    "TYRE_ON",
+    "NUT_ON"
+];
+
+function startPitStop() {
+
+    pitStep = 0;
+
+    document.querySelector(".screen").innerHTML = `
+
+        <div class="top-line">
+            <div>KRISS RACING TEAM</div>
+            <div>LEVEL 04 • PIT STOP</div>
+        </div>
+
+        <div class="registration">
+
+            <div class="level">
+                PIT CREW ACTIVE
+            </div>
+
+            <h2>
+                PIT<br>
+                <span>STOP</span>
+            </h2>
+
+            <p class="intro">
+                The car is in the box.<br>
+                Complete the tyre change in the correct order.
+            </p>
+
+            <div class="race-info">
+
+                <div>
+                    <span>STATUS</span>
+                    <strong>CAR STOPPED</strong>
+                </div>
+
+                <div>
+                    <span>TYRE</span>
+                    <strong>FRONT LEFT</strong>
+                </div>
+
+                <div>
+                    <span>CREW</span>
+                    <strong>READY</strong>
+                </div>
+
+            </div>
+
+            <div id="pit-options" style="margin-top: 30px;">
+
+                <button class="fuel-option" onclick="pitAction('TYRE_ON', this)">
+                    <strong>INSTALL NEW TYRE</strong>
+                    <span>FIT NEW WHEEL</span>
+                </button>
+
+                <button class="fuel-option" onclick="pitAction('NUT_OFF', this)">
+                    <strong>REMOVE WHEEL NUT</strong>
+                    <span>RELEASE WHEEL</span>
+                </button>
+
+                <button class="fuel-option" onclick="pitAction('NUT_ON', this)">
+                    <strong>TIGHTEN WHEEL NUT</strong>
+                    <span>LOCK WHEEL</span>
+                </button>
+
+                <button class="fuel-option" onclick="pitAction('TYRE_OFF', this)">
+                    <strong>REMOVE OLD TYRE</strong>
+                    <span>CLEAR USED WHEEL</span>
+                </button>
+
+            </div>
+
+            <div id="pit-feedback" style="margin-top: 25px;"></div>
+
+        </div>
+
+        <div class="bottom">
+            RACE CONTROL • LEVEL 04 • PIT STOP
+        </div>
+
+    `;
+}
+
+
+function pitAction(action, button) {
+
+    const feedback = document.getElementById("pit-feedback");
+
+    if (action === correctPitOrder[pitStep]) {
+
+        button.disabled = true;
+        button.style.opacity = "0.35";
+        button.style.pointerEvents = "none";
+
+        pitStep++;
+
+        feedback.innerHTML = `
+            <div class="fuel-result perfect">
+                ✓ STEP ${pitStep} CONFIRMED
+            </div>
+        `;
+
+        if (pitStep === correctPitOrder.length) {
+
+            setTimeout(() => {
+                completePitStop();
+            }, 700);
+        }
+
+    } else {
+
+        feedback.innerHTML = `
+            <div class="fuel-result danger">
+                ✕ PIT STOP ERROR
+                <small>Incorrect sequence. Restarting procedure.</small>
+            </div>
+        `;
+
+        setTimeout(() => {
+            startPitStop();
+        }, 1000);
+    }
+}
+
+
+function completePitStop() {
+
+    const times = ["2.31", "2.41", "2.52", "2.63"];
+    const pitTime = times[Math.floor(Math.random() * times.length)];
+
+    document.querySelector(".screen").innerHTML = `
+
+        <div class="top-line">
+            <div>KRISS RACING TEAM</div>
+            <div>PIT STOP COMPLETE</div>
+        </div>
+
+        <div class="registration">
+
+            <div class="level">
+                LEVEL 4 • COMPLETE
+            </div>
+
+            <h2>
+                PIT STOP<br>
+                <span>${pitTime}s</span>
+            </h2>
+
+            <p class="intro">
+                Clean stop.<br>
+                Correct sequence.<br>
+                Driver released safely.
+            </p>
+
+            <div class="race-info">
+
+                <div>
+                    <span>TIME</span>
+                    <strong>${pitTime}s</strong>
+                </div>
+
+                <div>
+                    <span>ERRORS</span>
+                    <strong>0</strong>
+                </div>
+
+                <div>
+                    <span>STATUS</span>
+                    <strong>RELEASED</strong>
+                </div>
+
+            </div>
+
+            <div class="reward">
+                PIT CREW APPROVED ✓
+            </div>
+
+            <button class="button" onclick="goToLevel5()">
+                NEXT LEVEL
+            </button>
+
+        </div>
+
+        <div class="bottom">
+            RACE CONTROL • LEVEL 04 CLEARED
+        </div>
+
+    `;
+}
+
+
+function goToLevel5() {
+
+    localStorage.setItem("krissLevel", "5");
+
+    document.querySelector(".screen").innerHTML = `
+
+        <div class="top-line">
+            <div>KRISS RACING TEAM</div>
+            <div>GRAND PRIX 2026</div>
+        </div>
+
+        <div class="registration">
+
+            <div class="level">
+                LEVEL 5
+            </div>
+
+            <h2>
+                CRIME<br>
+                <span>SCENE</span>
+            </h2>
+
+            <p class="intro">
+                Something is missing from the paddock.<br>
+                Investigate the evidence.
+            </p>
+
+            <button class="button">
+                START LEVEL
+            </button>
+
+        </div>
+
+        <div class="bottom">
+            RACE CONTROL • LEVEL 05 • INVESTIGATION
+        </div>
+
+    `;
+}
     </script>
 
 </body>
