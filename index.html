@@ -1178,20 +1178,26 @@ function carSVG() {
     const aero = buildChoices[4]?.aero || "sport";
     const color = buildChoices[5]?.color || "#ff8700";
 
-    let wheelSize = wheels === "SLICKS" ? 1.08 : wheels === "RACING" ? 1.05 : 1;
-    let rideHeight = suspension === "low" ? 15 : suspension === "high" ? -5 : 5;
+    let wheelSize =
+        wheels === "SLICKS" ? 1.10 :
+        wheels === "RACING" ? 1.06 :
+        wheels === "SPORT" ? 1.03 : 1;
+
+    let rideHeight =
+        suspension === "low" ? 12 :
+        suspension === "high" ? -5 : 4;
 
     let brakeOpacity =
         brakes === "STANDARD" ? 0.25 :
         brakes === "PERFORMANCE" ? 0.65 : 1;
 
-    let spoilerHeight =
-        aero === "standard" ? 0 :
-        aero === "sport" ? 12 : 25;
+    let frontWingWidth =
+        aero === "standard" ? 145 :
+        aero === "sport" ? 185 : 225;
 
-    let spoilerWidth =
-        aero === "standard" ? 90 :
-        aero === "sport" ? 125 : 165;
+    let rearWingWidth =
+        aero === "standard" ? 110 :
+        aero === "sport" ? 150 : 190;
 
     let engineDetail =
         engine === "4.0L V8" ? "V8" :
@@ -1199,243 +1205,325 @@ function carSVG() {
         engine === "2.0L TURBO I4" ? "TURBO" : "I4";
 
     return `
-        <svg class="car-svg"
-             viewBox="0 0 900 430"
-             xmlns="http://www.w3.org/2000/svg">
+    <svg class="car-svg"
+         viewBox="0 0 900 430"
+         xmlns="http://www.w3.org/2000/svg">
 
-            <!-- SHADOW -->
-            <ellipse
-                cx="450"
-                cy="${335 + rideHeight}"
-                rx="330"
-                ry="35"
-                fill="#000"
-                opacity="0.65"/>
-
-            <!-- REAR SPOILER -->
-            <g class="car-spoiler">
-                <rect
-                    x="${450 - spoilerWidth / 2}"
-                    y="${118 - spoilerHeight}"
-                    width="${spoilerWidth}"
-                    height="10"
-                    rx="3"
-                    fill="#111"
-                    stroke="#ff8700"
-                    stroke-width="2"/>
-
-                ${
-                    aero !== "standard"
-                    ? `
-                    <path
-                        d="M${400 - spoilerHeight} ${125 - spoilerHeight}
-                           L${390 - spoilerHeight} 165
-                           L${405 - spoilerHeight} 165
-                           L${420 - spoilerHeight} ${130 - spoilerHeight}"
-                        fill="#111"
-                        stroke="#ff8700"
-                        stroke-width="3"/>
-
-                    <path
-                        d="M${500 + spoilerHeight} ${125 - spoilerHeight}
-                           L${510 + spoilerHeight} 165
-                           L${495 + spoilerHeight} 165
-                           L${480 + spoilerHeight} ${130 - spoilerHeight}"
-                        fill="#111"
-                        stroke="#ff8700"
-                        stroke-width="3"/>
-                    `
-                    : ""
-                }
-            </g>
+        <!-- FLOOR SHADOW -->
+        <ellipse
+            cx="450"
+            cy="${330 + rideHeight}"
+            rx="340"
+            ry="30"
+            fill="#000"
+            opacity="0.7"/>
 
 
-            <!-- MAIN BODY -->
-            <path
-                class="car-body"
-                d="
-                M135 ${280 + rideHeight}
-                C165 ${225 + rideHeight},
-                   235 ${205 + rideHeight},
-                   295 ${195 + rideHeight}
-
-                L355 ${135 + rideHeight}
-                C390 ${105 + rideHeight},
-                   485 ${102 + rideHeight},
-                   540 ${130 + rideHeight}
-
-                L630 ${190 + rideHeight}
-                C700 ${195 + rideHeight},
-                   770 ${220 + rideHeight},
-                   800 ${275 + rideHeight}
-
-                L785 ${305 + rideHeight}
-                L130 ${305 + rideHeight}
-                Z"
-                fill="${color}"
-                stroke="#050505"
-                stroke-width="7"/>
-
-
-            <!-- BLACK CARBON ROOF -->
-            <path
-                class="car-carbon"
-                d="
-                M300 ${195 + rideHeight}
-                L360 ${140 + rideHeight}
-                C405 ${110 + rideHeight},
-                   480 ${110 + rideHeight},
-                   525 ${137 + rideHeight}
-                L570 ${192 + rideHeight}
-                Z"/>
-
-
-            <!-- WINDOWS -->
-            <path
-                class="car-window"
-                d="
-                M330 ${188 + rideHeight}
-                L372 ${148 + rideHeight}
-                C405 ${125 + rideHeight},
-                   430 ${124 + rideHeight},
-                   448 ${126 + rideHeight}
-                L448 ${188 + rideHeight}
-                Z"/>
-
-            <path
-                class="car-window"
-                d="
-                M458 ${126 + rideHeight}
-                C485 ${128 + rideHeight},
-                   505 ${138 + rideHeight},
-                   530 ${163 + rideHeight}
-                L555 ${192 + rideHeight}
-                L458 ${188 + rideHeight}
-                Z"/>
-
-
-            <!-- FRONT SPLITTER -->
-            <path
-                d="
-                M130 ${305 + rideHeight}
-                L790 ${305 + rideHeight}
-                L770 ${322 + rideHeight}
-                L155 ${322 + rideHeight}
-                Z"
-                fill="#080808"
+        <!-- REAR WING -->
+        <g>
+            <rect
+                x="${730 - rearWingWidth / 2}"
+                y="${135 + rideHeight}"
+                width="${rearWingWidth}"
+                height="14"
+                rx="3"
+                fill="#0a0a0a"
                 stroke="#ff8700"
-                stroke-width="3"/>
+                stroke-width="2"/>
+
+            <rect
+                x="700"
+                y="${145 + rideHeight}"
+                width="12"
+                height="70"
+                fill="#111"/>
+
+            <rect
+                x="748"
+                y="${145 + rideHeight}"
+                width="12"
+                height="70"
+                fill="#111"/>
+        </g>
 
 
-            <!-- SIDE CARBON -->
+        <!-- MAIN F1 BODY -->
+        <path
+            class="car-body"
+            d="
+            M185 ${255 + rideHeight}
+            L300 ${225 + rideHeight}
+            L365 ${190 + rideHeight}
+            L520 ${190 + rideHeight}
+            L610 ${215 + rideHeight}
+            L725 ${245 + rideHeight}
+            L690 ${285 + rideHeight}
+            L240 ${285 + rideHeight}
+            Z"
+            fill="${color}"
+            stroke="#050505"
+            stroke-width="6"/>
+
+
+        <!-- NOSE -->
+        <path
+            class="car-body"
+            d="
+            M185 ${255 + rideHeight}
+            L80 ${270 + rideHeight}
+            L190 ${286 + rideHeight}
+            L300 ${270 + rideHeight}
+            Z"
+            fill="${color}"
+            stroke="#050505"
+            stroke-width="5"/>
+
+
+        <!-- COCKPIT -->
+        <ellipse
+            cx="455"
+            cy="${195 + rideHeight}"
+            rx="70"
+            ry="42"
+            fill="#090909"
+            stroke="#555"
+            stroke-width="4"/>
+
+
+        <!-- DRIVER HEAD -->
+        <circle
+            cx="455"
+            cy="${175 + rideHeight}"
+            r="20"
+            fill="#111"
+            stroke="#ff8700"
+            stroke-width="3"/>
+
+
+        <!-- HALO -->
+        <path
+            d="
+            M420 ${190 + rideHeight}
+            C425 ${140 + rideHeight},
+              485 ${140 + rideHeight},
+              490 ${190 + rideHeight}
+            "
+            fill="none"
+            stroke="#111"
+            stroke-width="10"
+            stroke-linecap="round"/>
+
+        <line
+            x1="455"
+            y1="${145 + rideHeight}"
+            x2="455"
+            y2="${200 + rideHeight}"
+            stroke="#111"
+            stroke-width="8"/>
+
+
+        <!-- ENGINE COVER -->
+        <path
+            class="car-carbon"
+            d="
+            M520 ${190 + rideHeight}
+            L590 ${145 + rideHeight}
+            L660 ${210 + rideHeight}
+            L610 ${245 + rideHeight}
+            Z"/>
+
+
+        <!-- PAPAYA STRIPE -->
+        <path
+            class="car-orange-detail"
+            d="
+            M280 ${245 + rideHeight}
+            L640 ${235 + rideHeight}
+            L665 ${250 + rideHeight}
+            L300 ${263 + rideHeight}
+            Z"
+            opacity="0.85"/>
+
+
+        <!-- FRONT WING -->
+        <rect
+            x="${135 - frontWingWidth / 2}"
+            y="${285 + rideHeight}"
+            width="${frontWingWidth}"
+            height="10"
+            rx="3"
+            fill="#0a0a0a"
+            stroke="#ff8700"
+            stroke-width="2"/>
+
+        <rect
+            x="${135 - frontWingWidth / 2}"
+            y="${297 + rideHeight}"
+            width="${frontWingWidth}"
+            height="6"
+            fill="#151515"/>
+
+
+        <!-- LEFT FRONT WHEEL -->
+        <g transform="translate(235 ${300 + rideHeight}) scale(${wheelSize})">
+
+            <circle r="52" fill="#050505" stroke="#222" stroke-width="10"/>
+
+            <circle
+                class="car-rim"
+                r="36"/>
+
+            <circle
+                class="car-rim-inner"
+                r="22"/>
+
             <path
+                class="car-brake"
                 d="
-                M270 ${220 + rideHeight}
-                L365 ${215 + rideHeight}
-                L340 ${275 + rideHeight}
-                L245 ${270 + rideHeight}
-                Z"
-                fill="#101010"/>
+                M-8 -33
+                C22 -30 28 -7 26 12
+                C23 25 12 30 0 32
+                L0 20
+                C12 17 15 7 14 -4
+                C13 -15 7 -22 -8 -24 Z"
+                opacity="${brakeOpacity}"/>
+
+            <circle r="6" fill="#ff8700"/>
+
+        </g>
 
 
-            <!-- HEADLIGHTS -->
+        <!-- RIGHT FRONT WHEEL -->
+        <g transform="translate(235 ${205 + rideHeight}) scale(${wheelSize})">
+
+            <circle r="52" fill="#050505" stroke="#222" stroke-width="10"/>
+
+            <circle
+                class="car-rim"
+                r="36"/>
+
+            <circle
+                class="car-rim-inner"
+                r="22"/>
+
             <path
-                class="car-light"
+                class="car-brake"
                 d="
-                M155 ${268 + rideHeight}
-                L235 ${245 + rideHeight}
-                L220 ${263 + rideHeight}
-                L160 ${280 + rideHeight}
-                Z"/>
+                M-8 -33
+                C22 -30 28 -7 26 12
+                C23 25 12 30 0 32
+                L0 20
+                C12 17 15 7 14 -4
+                C13 -15 7 -22 -8 -24 Z"
+                opacity="${brakeOpacity}"/>
+
+            <circle r="6" fill="#ff8700"/>
+
+        </g>
+
+
+        <!-- LEFT REAR WHEEL -->
+        <g transform="translate(675 ${305 + rideHeight}) scale(${wheelSize})">
+
+            <circle r="58" fill="#050505" stroke="#222" stroke-width="11"/>
+
+            <circle
+                class="car-rim"
+                r="40"/>
+
+            <circle
+                class="car-rim-inner"
+                r="25"/>
 
             <path
-                class="car-light"
+                class="car-brake"
                 d="
-                M660 ${240 + rideHeight}
-                L730 ${255 + rideHeight}
-                L755 ${274 + rideHeight}
-                L675 ${260 + rideHeight}
-                Z"/>
+                M-10 -37
+                C25 -34 34 -8 30 15
+                C27 29 15 36 0 37
+                L0 24
+                C15 20 18 8 17 -5
+                C16 -18 8 -25 -10 -28 Z"
+                opacity="${brakeOpacity}"/>
+
+            <circle r="7" fill="#ff8700"/>
+
+        </g>
 
 
-            <!-- ORANGE RACING STRIPE -->
+        <!-- RIGHT REAR WHEEL -->
+        <g transform="translate(675 ${195 + rideHeight}) scale(${wheelSize})">
+
+            <circle r="58" fill="#050505" stroke="#222" stroke-width="11"/>
+
+            <circle
+                class="car-rim"
+                r="40"/>
+
+            <circle
+                class="car-rim-inner"
+                r="25"/>
+
             <path
-                class="car-orange-detail"
+                class="car-brake"
                 d="
-                M420 ${115 + rideHeight}
-                L450 ${115 + rideHeight}
-                L475 ${305 + rideHeight}
-                L435 ${305 + rideHeight}
-                Z"
-                opacity="0.9"/>
+                M-10 -37
+                C25 -34 34 -8 30 15
+                C27 29 15 36 0 37
+                L0 24
+                C15 20 18 8 17 -5
+                C16 -18 8 -25 -10 -28 Z"
+                opacity="${brakeOpacity}"/>
+
+            <circle r="7" fill="#ff8700"/>
+
+        </g>
 
 
-            <!-- WHEELS -->
-            <g class="car-wheel"
-               transform="translate(245 ${302 + rideHeight}) scale(${wheelSize})">
-
-                <circle r="58" fill="#050505" stroke="#222" stroke-width="10"/>
-                <circle class="car-rim" r="43"/>
-                <circle class="car-rim-inner" r="28"/>
-
-                <!-- BRAKE -->
-                <path
-                    class="car-brake"
-                    d="M-10 -38
-                       C25 -35 35 -10 32 15
-                       C28 28 15 37 0 38
-                       L0 25
-                       C15 20 18 8 17 -5
-                       C16 -18 8 -25 -10 -28 Z"
-                    opacity="${brakeOpacity}"/>
-
-                <circle r="8" fill="#ff8700"/>
-            </g>
+        <!-- SIDE PODS -->
+        <path
+            d="
+            M380 ${225 + rideHeight}
+            L500 ${220 + rideHeight}
+            L550 ${250 + rideHeight}
+            L365 ${260 + rideHeight}
+            Z"
+            fill="#101010"/>
 
 
-            <g class="car-wheel"
-               transform="translate(680 ${302 + rideHeight}) scale(${wheelSize})">
-
-                <circle r="58" fill="#050505" stroke="#222" stroke-width="10"/>
-                <circle class="car-rim" r="43"/>
-                <circle class="car-rim-inner" r="28"/>
-
-                <path
-                    class="car-brake"
-                    d="M-10 -38
-                       C25 -35 35 -10 32 15
-                       C28 28 15 37 0 38
-                       L0 25
-                       C15 20 18 8 17 -5
-                       C16 -18 8 -25 -10 -28 Z"
-                    opacity="${brakeOpacity}"/>
-
-                <circle r="8" fill="#ff8700"/>
-            </g>
+        <!-- KRISS LOGO -->
+        <text
+            x="465"
+            y="${255 + rideHeight}"
+            text-anchor="middle"
+            class="car-label">
+            KRISS
+        </text>
 
 
-            <!-- KRISS LOGO -->
-            <text
-                x="445"
-                y="${245 + rideHeight}"
-                text-anchor="middle"
-                class="car-label">
-                KRISS
-            </text>
+        <!-- NUMBER -->
+        <text
+            x="345"
+            y="${245 + rideHeight}"
+            fill="#ffffff"
+            font-size="24"
+            font-weight="900">
+            01
+        </text>
 
 
-            <!-- ENGINE BADGE -->
-            <text
-                x="450"
-                y="385"
-                text-anchor="middle"
-                fill="#777"
-                font-size="11"
-                letter-spacing="3">
-                ${engineDetail} • ${wheels} • ${aero.toUpperCase()}
-            </text>
+        <!-- CONFIG -->
+        <text
+            x="450"
+            y="390"
+            text-anchor="middle"
+            fill="#777"
+            font-size="11"
+            letter-spacing="3">
+            ${engineDetail} • ${wheels} • ${aero.toUpperCase()}
+        </text>
 
-        </svg>
+    </svg>
     `;
 }
 
