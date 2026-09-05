@@ -1739,9 +1739,9 @@ function goToLevel3() {
                 Choose the right tyres for the conditions.
             </p>
 
-            <button class="button">
-                START LEVEL
-            </button>
+          <button class="button" onclick="startTyreLevel()">
+    START LEVEL
+</button>
 
         </div>
 
@@ -1750,6 +1750,250 @@ function goToLevel3() {
         </div>
 
     `;
+}
+        /* =========================================
+   LEVEL 3 - TYRE STRATEGY
+   ========================================= */
+
+let currentTyreRound = 0;
+
+const tyreRounds = [
+    {
+        weather: "☀️ DRY",
+        track: "TRACK TEMPERATURE: 38°C",
+        condition: "The circuit is completely dry.",
+        correct: "SLICKS"
+    },
+    {
+        weather: "🌦 LIGHT RAIN",
+        track: "TRACK TEMPERATURE: 22°C",
+        condition: "Rain has started. The track is damp but there is no standing water.",
+        correct: "INTERMEDIATES"
+    },
+    {
+        weather: "🌧 HEAVY RAIN",
+        track: "TRACK TEMPERATURE: 16°C",
+        condition: "Heavy rain. Standing water is forming across the circuit.",
+        correct: "WETS"
+    }
+];
+
+
+function startTyreLevel() {
+
+    currentTyreRound = 0;
+
+    showTyreRound();
+
+}
+
+
+function showTyreRound() {
+
+    const round = tyreRounds[currentTyreRound];
+
+    document.querySelector(".screen").innerHTML = `
+
+        <div class="top-line">
+            <div>KRISS RACING TEAM</div>
+            <div>LEVEL 03 • TYRE STRATEGY</div>
+        </div>
+
+        <div class="registration">
+
+            <div class="level">
+                ROUND ${currentTyreRound + 1} / ${tyreRounds.length}
+            </div>
+
+            <h2>
+                TYRE<br>
+                <span>STRATEGY</span>
+            </h2>
+
+            <div class="race-info">
+
+                <div>
+                    <span>WEATHER</span>
+                    <strong>${round.weather}</strong>
+                </div>
+
+                <div>
+                    <span>TRACK</span>
+                    <strong>${round.track}</strong>
+                </div>
+
+                <div>
+                    <span>STATUS</span>
+                    <strong>LIVE</strong>
+                </div>
+
+            </div>
+
+            <p class="intro">
+                ${round.condition}
+                <br><br>
+                Choose the correct tyre compound.
+            </p>
+
+            <div id="fuel-options">
+
+                <button class="fuel-option" onclick="checkTyre('SLICKS')">
+                    <strong>SLICKS</strong>
+                    <span>DRY CONDITIONS</span>
+                </button>
+
+                <button class="fuel-option" onclick="checkTyre('INTERMEDIATES')">
+                    <strong>INTERMEDIATES</strong>
+                    <span>LIGHT RAIN</span>
+                </button>
+
+                <button class="fuel-option" onclick="checkTyre('WETS')">
+                    <strong>WETS</strong>
+                    <span>HEAVY RAIN</span>
+                </button>
+
+            </div>
+
+            <div id="tyre-feedback"></div>
+
+        </div>
+
+        <div class="bottom">
+            RACE CONTROL • LEVEL 03 • TYRES
+        </div>
+
+    `;
+
+}
+
+
+function checkTyre(choice) {
+
+    const round = tyreRounds[currentTyreRound];
+
+    const feedback = document.getElementById("tyre-feedback");
+
+    if (choice === round.correct) {
+
+        feedback.innerHTML = `
+            <div class="fuel-result perfect" style="margin-top:25px;">
+                ✓ CORRECT TYRE CHOICE
+                <small>Race Control confirms the strategy.</small>
+            </div>
+        `;
+
+        setTimeout(() => {
+
+            currentTyreRound++;
+
+            if (currentTyreRound < tyreRounds.length) {
+
+                showTyreRound();
+
+            } else {
+
+                completeTyreLevel();
+
+            }
+
+        }, 900);
+
+    } else {
+
+        feedback.innerHTML = `
+            <div class="fuel-result danger" style="margin-top:25px;">
+                ✕ WRONG TYRE CHOICE
+                <small>Grip levels are critical. Try again.</small>
+            </div>
+        `;
+
+    }
+
+}
+
+
+function completeTyreLevel() {
+
+    document.querySelector(".screen").innerHTML = `
+
+        <div class="top-line">
+            <div>KRISS RACING TEAM</div>
+            <div>LEVEL COMPLETE</div>
+        </div>
+
+        <div class="registration">
+
+            <div class="level">
+                LEVEL 3 • COMPLETE
+            </div>
+
+            <h2>
+                TYRE STRATEGY<br>
+                <span>PERFECT ✓</span>
+            </h2>
+
+            <p class="intro">
+                Three conditions.<br>
+                Three correct calls.<br><br>
+                Driver kept maximum grip throughout the session.
+            </p>
+
+            <div class="reward">
+                STRATEGY APPROVED
+            </div>
+
+            <button class="button" onclick="goToLevel4()">
+                NEXT LEVEL
+            </button>
+
+        </div>
+
+        <div class="bottom">
+            RACE CONTROL • LEVEL 03 CLEARED
+        </div>
+
+    `;
+
+}
+
+
+function goToLevel4() {
+
+    document.querySelector(".screen").innerHTML = `
+
+        <div class="top-line">
+            <div>KRISS RACING TEAM</div>
+            <div>GRAND PRIX 2026</div>
+        </div>
+
+        <div class="registration">
+
+            <div class="level">
+                LEVEL 4
+            </div>
+
+            <h2>
+                PIT<br>
+                <span>STOP</span>
+            </h2>
+
+            <p class="intro">
+                Every second counts.<br>
+                Prepare for the next challenge.
+            </p>
+
+            <button class="button">
+                START LEVEL
+            </button>
+
+        </div>
+
+        <div class="bottom">
+            RACE CONTROL • LEVEL 04 • PIT STOP
+        </div>
+
+    `;
+
 }
     </script>
 
