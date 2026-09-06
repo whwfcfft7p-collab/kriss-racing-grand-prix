@@ -3828,6 +3828,303 @@ function completeCarEssentials() {
 
     `;
 }
+        function goToLevel7() {
+
+    localStorage.setItem("krissLevel", "7");
+
+    document.querySelector(".screen").innerHTML = `
+
+        <div class="top-line">
+            <div>KRISS RACING TEAM</div>
+            <div>AUDIO ANALYSIS</div>
+        </div>
+
+        <div class="registration">
+
+            <div class="level">
+                LEVEL 7
+            </div>
+
+            <h2>
+                GUESS THE<br>
+                <span>ENGINE</span>
+            </h2>
+
+            <p class="intro">
+                Race Control intercepted four engine recordings.
+                <br><br>
+                Listen carefully and identify each engine.
+            </p>
+
+            <div class="data-fragment" style="margin-top:25px;">
+
+                <div class="fragment-label">
+                    AUDIO CHANNEL READY
+                </div>
+
+                <div class="fragment-character" style="font-size:50px;">
+                    ◉
+                </div>
+
+                <div class="fragment-warning">
+                    HEADPHONES RECOMMENDED
+                </div>
+
+            </div>
+
+            <button
+                class="button"
+                style="margin-top:25px;"
+                onclick="startEngineGame()">
+                START AUDIO TEST →
+            </button>
+
+        </div>
+
+        <div class="bottom">
+            RACE CONTROL • LEVEL 07 • AUDIO IDENTIFICATION
+        </div>
+    `;
+}
+
+
+const engineRounds = [
+
+    {
+        file: "engine-4cyl.mp3",
+        answer: "4 CYLINDER"
+    },
+
+    {
+        file: "engine-v8.mp3",
+        answer: "V8"
+    },
+
+    {
+        file: "engine-v6.mp3",
+        answer: "V6"
+    },
+
+    {
+        file: "engine-v12.mp3",
+        answer: "V12"
+    }
+
+];
+
+let currentEngineRound = 0;
+let engineScore = 0;
+
+
+function startEngineGame() {
+
+    currentEngineRound = 0;
+    engineScore = 0;
+
+    showEngineRound();
+}
+
+
+function showEngineRound() {
+
+    const round = engineRounds[currentEngineRound];
+
+    document.querySelector(".screen").innerHTML = `
+
+        <div class="top-line">
+            <div>KRISS RACING TEAM</div>
+            <div>AUDIO ANALYSIS</div>
+        </div>
+
+        <div class="registration">
+
+            <div class="level">
+                AUDIO SAMPLE ${currentEngineRound + 1} / 4
+            </div>
+
+            <h2>
+                IDENTIFY<br>
+                <span>ENGINE</span>
+            </h2>
+
+            <p class="intro">
+                Play the intercepted recording.
+            </p>
+
+            <div class="data-fragment">
+
+                <div class="fragment-label">
+                    ENGINE AUDIO
+                </div>
+
+                <div
+                    onclick="playEngineSound()"
+                    style="
+                        font-size:65px;
+                        cursor:pointer;
+                        margin:25px 0;
+                    ">
+                    ▶
+                </div>
+
+                <div class="fragment-warning">
+                    TAP TO PLAY
+                </div>
+
+            </div>
+
+            <audio
+                id="engine-audio"
+                src="${round.file}">
+            </audio>
+
+            <div
+                style="
+                    display:grid;
+                    grid-template-columns:repeat(2,1fr);
+                    gap:10px;
+                    margin-top:25px;
+                ">
+
+                <button class="option"
+                    onclick="answerEngine('V6')">
+                    V6
+                </button>
+
+                <button class="option"
+                    onclick="answerEngine('V12')">
+                    V12
+                </button>
+
+                <button class="option"
+                    onclick="answerEngine('4 CYLINDER')">
+                    4 CYLINDER
+                </button>
+
+                <button class="option"
+                    onclick="answerEngine('V8')">
+                    V8
+                </button>
+
+            </div>
+
+            <div id="engine-feedback"></div>
+
+        </div>
+
+        <div class="bottom">
+            AUDIO CHANNEL • SAMPLE ${currentEngineRound + 1}/4
+        </div>
+    `;
+}
+
+
+function playEngineSound() {
+
+    const audio =
+        document.getElementById("engine-audio");
+
+    audio.currentTime = 0;
+    audio.play();
+}
+
+
+function answerEngine(answer) {
+
+    const round = engineRounds[currentEngineRound];
+
+    if (answer !== round.answer) {
+
+        document.getElementById("engine-feedback").innerHTML = `
+
+            <div class="fuel-result danger"
+                 style="margin-top:20px;">
+
+                ✕ INCORRECT ENGINE
+
+                <small>
+                    Listen again and retry.
+                </small>
+
+            </div>
+        `;
+
+        return;
+    }
+
+    engineScore++;
+
+    document.getElementById("engine-feedback").innerHTML = `
+
+        <div class="fuel-result success"
+             style="margin-top:20px;">
+
+            ✓ ENGINE IDENTIFIED
+
+            <small>
+                Audio signature confirmed.
+            </small>
+
+        </div>
+    `;
+
+    setTimeout(() => {
+
+        currentEngineRound++;
+
+        if (currentEngineRound < engineRounds.length) {
+
+            showEngineRound();
+
+        } else {
+
+            completeEngineGame();
+
+        }
+
+    }, 900);
+}
+
+
+function completeEngineGame() {
+
+    document.querySelector(".screen").innerHTML = `
+
+        <div class="top-line">
+            <div>KRISS RACING TEAM</div>
+            <div>AUDIO VERIFIED</div>
+        </div>
+
+        <div class="registration">
+
+            <div class="level">
+                LEVEL 7 • COMPLETE
+            </div>
+
+            <h2>
+                ENGINE EXPERT<br>
+                <span>VERIFIED ✓</span>
+            </h2>
+
+            <p class="intro">
+                4 / 4 engine signatures identified.
+                <br>
+                Audio analysis complete.
+            </p>
+
+            <button
+                class="button"
+                onclick="showFragment(7, 'goToLevel8')">
+                CONTINUE →
+            </button>
+
+        </div>
+
+        <div class="bottom">
+            RACE CONTROL • LEVEL 07 CLEARED
+        </div>
+    `;
+}
         const codeFragments = {
     1: "P",
     2: "5",
