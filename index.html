@@ -1072,6 +1072,183 @@ h2 span {
 .bottom {
     color: #48566d;
 }
+        /* =========================================
+   ENCRYPTED FRAGMENT SYSTEM
+   ========================================= */
+
+.data-fragment {
+    position: relative;
+    margin: 32px auto;
+    padding: 28px 24px;
+    max-width: 520px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(76, 201, 255, 0.10),
+            rgba(118, 247, 255, 0.02)
+        );
+
+    border: 1px solid rgba(76, 201, 255, 0.35);
+
+    clip-path: polygon(
+        18px 0,
+        100% 0,
+        100% calc(100% - 18px),
+        calc(100% - 18px) 100%,
+        0 100%,
+        0 18px
+    );
+
+    overflow: hidden;
+
+    box-shadow:
+        0 0 30px rgba(76, 201, 255, 0.10),
+        inset 0 0 30px rgba(76, 201, 255, 0.03);
+}
+
+.data-fragment::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background:
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 4px,
+            rgba(255,255,255,0.025) 5px
+        );
+
+    pointer-events: none;
+}
+
+.data-fragment::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+
+    background: rgba(118, 247, 255, 0.8);
+    box-shadow: 0 0 14px rgba(118, 247, 255, 0.8);
+
+    animation: fragmentScan 2.4s linear infinite;
+}
+
+@keyframes fragmentScan {
+    from {
+        top: -5%;
+    }
+
+    to {
+        top: 105%;
+    }
+}
+
+.fragment-label {
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    opacity: 0.65;
+}
+
+.fragment-source {
+    margin-top: 8px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    opacity: 0.4;
+}
+
+.fragment-character {
+    position: relative;
+    margin: 18px 0 10px;
+
+    font-size: clamp(72px, 14vw, 120px);
+    font-weight: 900;
+    line-height: 1;
+
+    color: #ffffff;
+
+    text-shadow:
+        3px 0 0 rgba(76, 201, 255, 0.7),
+        -3px 0 0 rgba(255, 93, 115, 0.35),
+        0 0 30px rgba(76, 201, 255, 0.65);
+
+    animation: fragmentGlitch 2.8s infinite;
+}
+
+@keyframes fragmentGlitch {
+
+    0%, 91%, 100% {
+        transform: translate(0);
+    }
+
+    92% {
+        transform: translate(-3px, 1px);
+    }
+
+    94% {
+        transform: translate(4px, -1px);
+    }
+
+    96% {
+        transform: translate(-2px, 0);
+    }
+}
+
+.fragment-status {
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: #b8ff6a;
+    text-transform: uppercase;
+}
+
+.fragment-progress {
+    width: 100%;
+    height: 5px;
+    margin-top: 18px;
+
+    background: rgba(255,255,255,0.08);
+    overflow: hidden;
+}
+
+.fragment-progress div {
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        #4cc9ff,
+        #76f7ff
+    );
+
+    box-shadow: 0 0 12px rgba(76,201,255,0.7);
+}
+
+.fragment-warning {
+    margin-top: 14px;
+    font-size: 9px;
+    letter-spacing: 2px;
+    opacity: 0.35;
+}
+
+.system-transition {
+    animation: screenBoot 0.45s ease;
+}
+
+@keyframes screenBoot {
+
+    from {
+        opacity: 0;
+        transform: scale(0.985);
+        filter: blur(3px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+        filter: blur(0);
+    }
+}
     </style>
 </head>
 
@@ -1525,9 +1702,13 @@ function startFuelLevel() {
                 Check your physical gifts.
             </p>
 
-            <button class="button" onclick="goToLevel2()">
-                NEXT LEVEL
-            </button>
+      <button
+    class="button"
+    onclick="showFragment(1, goToLevel2)">
+
+    CONTINUE →
+
+</button>
 
         </div>
 
@@ -2531,10 +2712,13 @@ else if (savedLevel === "5") {
     goToLevel6();
 }
 });
-        function resetGame() {
+function resetGame() {
+
+    localStorage.removeItem("krissLevel");
+    localStorage.removeItem("krissFragments");
+
     location.reload();
 }
-
 document.addEventListener("keydown", function(event) {
 
     if (event.shiftKey && event.key.toLowerCase() === "r") {
@@ -3297,6 +3481,220 @@ function goToLevel6() {
 
         <div class="bottom">
             RACE CONTROL • LEVEL 06 • ESSENTIALS
+        </div>
+
+    `;
+}
+        const codeFragments = {
+    1: "P",
+    2: "5",
+    3: "U",
+    5: "1",
+    7: "R",
+    8: "N",
+    9: "L",
+    10: "3"
+};
+
+function saveFragment(level) {
+
+    const fragment = codeFragments[level];
+
+    if (!fragment) return;
+
+    let collected =
+        JSON.parse(localStorage.getItem("krissFragments")) || {};
+
+    collected[level] = fragment;
+
+    localStorage.setItem(
+        "krissFragments",
+        JSON.stringify(collected)
+    );
+}
+        function verifyFinalCode() {
+
+    const input =
+        document
+        .getElementById("final-code")
+        .value
+        .toUpperCase()
+        .replace(/[^A-Z0-9]/g, "");
+
+    const feedback =
+        document.getElementById("final-code-feedback");
+
+    const fragments =
+        JSON.parse(localStorage.getItem("krissFragments")) || {};
+
+    const requiredLevels = [1, 2, 3, 5, 7, 8, 9, 10];
+
+    const missingLevel =
+        requiredLevels.find(level => !fragments[level]);
+
+    if (missingLevel) {
+
+        feedback.innerHTML = `
+            <div class="fuel-result danger">
+                OOPS.
+                <small>
+                    You didn't solve everything correctly.
+                    Fragment data is missing.
+                </small>
+            </div>
+
+            <button
+                class="button"
+                style="margin-top:20px;"
+                onclick="restartLevel(${missingLevel})">
+
+                RESTART LEVEL ${missingLevel}
+
+            </button>
+        `;
+
+        return;
+    }
+
+    if (input !== "5N1P3RUL") {
+
+        feedback.innerHTML = `
+            <div class="fuel-result danger">
+                ACCESS DENIED
+                <small>
+                    OOPS — you didn't decrypt it correctly.
+                    Check your fragments and try again.
+                </small>
+            </div>
+        `;
+
+        return;
+    }
+
+    triggerSecurityBreach();
+}
+        /* =========================================
+   FINAL CODE FRAGMENTS
+   ========================================= */
+
+const codeFragments = {
+    1: "P",
+    2: "5",
+    3: "U",
+    5: "1",
+    7: "R",
+    8: "N",
+    9: "L",
+    10: "3"
+};
+
+
+function saveFragment(level) {
+
+    const fragment = codeFragments[level];
+
+    if (!fragment) return;
+
+    let collected =
+        JSON.parse(
+            localStorage.getItem("krissFragments")
+        ) || {};
+
+    collected[level] = fragment;
+
+    localStorage.setItem(
+        "krissFragments",
+        JSON.stringify(collected)
+    );
+}
+
+
+function showFragment(level, nextFunction) {
+
+    const fragment = codeFragments[level];
+
+    if (!fragment) {
+        nextFunction();
+        return;
+    }
+
+    saveFragment(level);
+
+    const collected =
+        JSON.parse(
+            localStorage.getItem("krissFragments")
+        ) || {};
+
+    const fragmentCount =
+        Object.keys(collected).length;
+
+    const progress =
+        Math.round((fragmentCount / 8) * 100);
+
+
+    document.querySelector(".screen").innerHTML = `
+
+        <div class="system-transition">
+
+            <div class="top-line">
+                <div>KRISS RACING SYSTEM</div>
+                <div>ENCRYPTED CHANNEL</div>
+            </div>
+
+            <div class="registration">
+
+                <div class="level">
+                    DATA INTERCEPT
+                </div>
+
+                <div class="data-fragment">
+
+                    <div class="fragment-label">
+                        ENCRYPTED DATA DETECTED
+                    </div>
+
+                    <div class="fragment-source">
+                        SOURCE // UNKNOWN
+                    </div>
+
+                    <div class="fragment-character">
+                        ${fragment}
+                    </div>
+
+                    <div class="fragment-status">
+                        ✓ FRAGMENT CAPTURED
+                    </div>
+
+                    <div class="fragment-progress">
+                        <div style="width:${progress}%"></div>
+                    </div>
+
+                    <div class="fragment-warning">
+                        DECRYPTION PROGRESS // ${progress}%
+                    </div>
+
+                </div>
+
+                <p class="intro">
+                    Store this fragment.
+                    <br>
+                    Its position in the final access key is unknown.
+                </p>
+
+                <button
+                    class="button"
+                    onclick="(${nextFunction.toString()})()">
+
+                    STORE FRAGMENT →
+
+                </button>
+
+            </div>
+
+            <div class="bottom">
+                SECURE CHANNEL • ${fragmentCount}/8 FRAGMENTS RECOVERED
+            </div>
+
         </div>
 
     `;
