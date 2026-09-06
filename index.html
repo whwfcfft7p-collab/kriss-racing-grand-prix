@@ -1307,484 +1307,7 @@ h2 span {
         let overrideStage = 0;
 
 
-function startSecurityOverride() {
 
-    overrideStage = 0;
-
-    showOverrideStage();
-}
-
-
-const overrideStages = [
-
-    {
-        title: "STABILIZE CORE",
-
-        instruction:
-            "System temperature is critical. Select the safest stabilization protocol.",
-
-        options: [
-            "MAXIMUM POWER",
-            "EMERGENCY COOLING",
-            "IGNORE WARNING"
-        ],
-
-        answer: "EMERGENCY COOLING",
-
-        success:
-            "CORE TEMPERATURE STABLE"
-    },
-
-    {
-        title: "ISOLATE BREACH",
-
-        instruction:
-            "Unauthorized access is spreading through the network. Choose the correct containment response.",
-
-        options: [
-            "ISOLATE AFFECTED SECTOR",
-            "OPEN ALL CHANNELS",
-            "DISABLE FIREWALL"
-        ],
-
-        answer: "ISOLATE AFFECTED SECTOR",
-
-        success:
-            "BREACH CONTAINED"
-    },
-
-    {
-        title: "RESTORE CONTROL",
-
-        instruction:
-            "Race Control connection is offline. Restore the secure channel.",
-
-        options: [
-            "PUBLIC CHANNEL",
-            "SECURE CHANNEL",
-            "GUEST ACCESS"
-        ],
-
-        answer: "SECURE CHANNEL",
-
-        success:
-            "RACE CONTROL RESTORED"
-    }
-
-];
-
-
-function showOverrideStage() {
-
-    const stage =
-        overrideStages[overrideStage];
-
-    const progress =
-        Math.round(
-            (overrideStage / overrideStages.length) * 100
-        );
-
-    const buttons =
-        stage.options.map(option => `
-
-            <button
-                class="option"
-                onclick="answerOverride(this)">
-                ${option}
-            </button>
-
-        `).join("");
-
-
-    document.querySelector(".screen").innerHTML = `
-
-        <div class="top-line">
-            <div>EMERGENCY OVERRIDE</div>
-            <div>PHASE ${overrideStage + 1}/3</div>
-        </div>
-
-        <div class="registration">
-
-            <div class="level">
-                BONUS LEVEL
-            </div>
-
-            <h2 class="breach-title">
-                ${stage.title}
-            </h2>
-
-            <div class="data-fragment">
-
-                <div class="fragment-label">
-                    SYSTEM RECOVERY
-                </div>
-
-                <div class="override-bar">
-                    <div style="width:${progress}%"></div>
-                </div>
-
-                <div class="fragment-warning">
-                    RECOVERY // ${progress}%
-                </div>
-
-            </div>
-
-            <p class="intro">
-                ${stage.instruction}
-            </p>
-
-            <div style="
-                display:grid;
-                gap:10px;
-                margin-top:25px;
-            ">
-                ${buttons}
-            </div>
-
-            <div id="override-feedback"></div>
-
-        </div>
-
-        <div class="bottom">
-            EMERGENCY PROTOCOL • DO NOT DISCONNECT
-        </div>
-    `;
-}
-
-
-function answerOverride(button) {
-
-    const stage =
-        overrideStages[overrideStage];
-
-    const answer =
-        button.textContent.trim();
-
-    const feedback =
-        document.getElementById(
-            "override-feedback"
-        );
-
-
-    if (answer !== stage.answer) {
-
-        feedback.innerHTML = `
-
-            <div
-                class="fuel-result danger"
-                style="margin-top:20px;">
-
-                ✕ OVERRIDE REJECTED
-
-                <small>
-                    System instability increased.
-                    Try another protocol.
-                </small>
-
-            </div>
-        `;
-
-        return;
-    }
-
-
-    feedback.innerHTML = `
-
-        <div
-            class="fuel-result success"
-            style="margin-top:20px;">
-
-            ✓ ${stage.success}
-
-            <small>
-                Recovery protocol accepted.
-            </small>
-
-        </div>
-    `;
-
-
-    setTimeout(() => {
-
-        overrideStage++;
-
-        if (
-            overrideStage <
-            overrideStages.length
-        ) {
-
-            showOverrideStage();
-
-        } else {
-
-            showFinalOverride();
-        }
-
-    }, 900);
-}
-                         function showFinalOverride() {
-
-    document.querySelector(".screen").innerHTML = `
-
-        <div class="top-line">
-            <div>KRISS RACING SYSTEM</div>
-            <div>MANUAL OVERRIDE</div>
-        </div>
-
-        <div class="registration">
-
-            <div class="level">
-                BONUS LEVEL • FINAL PHASE
-            </div>
-
-            <h2 class="breach-title">
-                FINAL<br>
-                OVERRIDE
-            </h2>
-
-            <p class="intro">
-                Security breach contained.
-                <br><br>
-                One final authorization sequence
-                is required.
-            </p>
-
-            <div class="data-fragment">
-
-                <div class="fragment-label">
-                    MANUAL OVERRIDE SEQUENCE
-                </div>
-
-                <div class="override-code">
-                    ▲ ● ■ ◆
-                </div>
-
-                <div class="fragment-warning">
-                    REPEAT THE SEQUENCE
-                </div>
-
-            </div>
-
-            <p class="intro">
-                Enter the symbols in the exact order shown.
-            </p>
-
-            <div style="
-                display:grid;
-                grid-template-columns:repeat(4,1fr);
-                gap:10px;
-                margin-top:20px;
-            ">
-
-                <button
-                    class="option"
-                    onclick="pressOverrideSymbol('◆')">
-                    ◆
-                </button>
-
-                <button
-                    class="option"
-                    onclick="pressOverrideSymbol('▲')">
-                    ▲
-                </button>
-
-                <button
-                    class="option"
-                    onclick="pressOverrideSymbol('■')">
-                    ■
-                </button>
-
-                <button
-                    class="option"
-                    onclick="pressOverrideSymbol('●')">
-                    ●
-                </button>
-
-            </div>
-
-            <div
-                id="override-input"
-                class="override-code"
-                style="min-height:60px;">
-                _ _ _ _
-            </div>
-
-            <div id="symbol-feedback"></div>
-
-        </div>
-
-        <div class="bottom">
-            FINAL SECURITY AUTHORIZATION
-        </div>
-    `;
-
-    window.overrideInput = [];
-}
-                             function pressOverrideSymbol(symbol) {
-
-    const correctSequence =
-        ["▲", "●", "■", "◆"];
-
-    window.overrideInput.push(symbol);
-
-
-    document.getElementById(
-        "override-input"
-    ).textContent =
-        window.overrideInput.join(" ");
-
-
-    const index =
-        window.overrideInput.length - 1;
-
-
-    if (
-        window.overrideInput[index] !==
-        correctSequence[index]
-    ) {
-
-        document.getElementById(
-            "symbol-feedback"
-        ).innerHTML = `
-
-            <div class="fuel-result danger">
-
-                ✕ SEQUENCE ERROR
-
-                <small>
-                    Manual override reset.
-                </small>
-
-            </div>
-        `;
-
-        window.overrideInput = [];
-
-        setTimeout(() => {
-
-            document.getElementById(
-                "override-input"
-            ).textContent =
-                "_ _ _ _";
-
-        }, 700);
-
-        return;
-    }
-
-
-    if (
-        window.overrideInput.length ===
-        correctSequence.length
-    ) {
-
-        document.getElementById(
-            "symbol-feedback"
-        ).innerHTML = `
-
-            <div class="fuel-result success">
-
-                ✓ OVERRIDE ACCEPTED
-
-                <small>
-                    Security integrity restored.
-                </small>
-
-            </div>
-        `;
-
-
-        setTimeout(() => {
-
-            completeGrandPrix();
-
-        }, 1500);
-    }
-}
-        function completeGrandPrix() {
-
-    localStorage.setItem(
-        "krissLevel",
-        "complete"
-    );
-
-    document.querySelector(".screen").classList.remove(
-        "security-breach"
-    );
-
-
-    document.querySelector(".screen").innerHTML = `
-
-        <div class="top-line">
-            <div>KRISS RACING TEAM</div>
-            <div>GRAND PRIX 2026</div>
-        </div>
-
-        <div class="registration">
-
-            <div class="level">
-                ALL SYSTEMS SECURE
-            </div>
-
-            <div style="
-                font-size:75px;
-                margin:10px 0;
-            ">
-                🏆
-            </div>
-
-            <h2>
-                GRAND PRIX<br>
-                <span>WINNER</span>
-            </h2>
-
-            <div class="data-fragment">
-
-                <div class="fragment-label">
-                    OFFICIAL RACE RESULT
-                </div>
-
-                <div
-                    class="fragment-character"
-                    style="font-size:70px;">
-                    P1
-                </div>
-
-                <div class="fragment-status">
-                    ✓ DRIVER // LAUR
-                </div>
-
-                <div class="fragment-warning">
-                    10 LEVELS • 1 BONUS • 0 SHORTCUTS
-                </div>
-
-            </div>
-
-            <p class="intro">
-                Race complete.
-                <br>
-                Security restored.
-                <br>
-                Driver authenticated.
-                <br><br>
-                There is nothing left to prove.
-            </p>
-
-            <button
-                class="button"
-                onclick="showFinalRewards()">
-
-                CLAIM FINAL REWARD →
-
-            </button>
-
-        </div>
-
-        <div class="bottom">
-            KRISS RACING TEAM • GRAND PRIX WINNER
-        </div>
-    `;
-}
     </style>
 </head>
 
@@ -6178,6 +5701,484 @@ function verifyFinalCode() {
         `;
 
     }, 2200);
+}
+        function startSecurityOverride() {
+
+    overrideStage = 0;
+
+    showOverrideStage();
+}
+
+
+const overrideStages = [
+
+    {
+        title: "STABILIZE CORE",
+
+        instruction:
+            "System temperature is critical. Select the safest stabilization protocol.",
+
+        options: [
+            "MAXIMUM POWER",
+            "EMERGENCY COOLING",
+            "IGNORE WARNING"
+        ],
+
+        answer: "EMERGENCY COOLING",
+
+        success:
+            "CORE TEMPERATURE STABLE"
+    },
+
+    {
+        title: "ISOLATE BREACH",
+
+        instruction:
+            "Unauthorized access is spreading through the network. Choose the correct containment response.",
+
+        options: [
+            "ISOLATE AFFECTED SECTOR",
+            "OPEN ALL CHANNELS",
+            "DISABLE FIREWALL"
+        ],
+
+        answer: "ISOLATE AFFECTED SECTOR",
+
+        success:
+            "BREACH CONTAINED"
+    },
+
+    {
+        title: "RESTORE CONTROL",
+
+        instruction:
+            "Race Control connection is offline. Restore the secure channel.",
+
+        options: [
+            "PUBLIC CHANNEL",
+            "SECURE CHANNEL",
+            "GUEST ACCESS"
+        ],
+
+        answer: "SECURE CHANNEL",
+
+        success:
+            "RACE CONTROL RESTORED"
+    }
+
+];
+
+
+function showOverrideStage() {
+
+    const stage =
+        overrideStages[overrideStage];
+
+    const progress =
+        Math.round(
+            (overrideStage / overrideStages.length) * 100
+        );
+
+    const buttons =
+        stage.options.map(option => `
+
+            <button
+                class="option"
+                onclick="answerOverride(this)">
+                ${option}
+            </button>
+
+        `).join("");
+
+
+    document.querySelector(".screen").innerHTML = `
+
+        <div class="top-line">
+            <div>EMERGENCY OVERRIDE</div>
+            <div>PHASE ${overrideStage + 1}/3</div>
+        </div>
+
+        <div class="registration">
+
+            <div class="level">
+                BONUS LEVEL
+            </div>
+
+            <h2 class="breach-title">
+                ${stage.title}
+            </h2>
+
+            <div class="data-fragment">
+
+                <div class="fragment-label">
+                    SYSTEM RECOVERY
+                </div>
+
+                <div class="override-bar">
+                    <div style="width:${progress}%"></div>
+                </div>
+
+                <div class="fragment-warning">
+                    RECOVERY // ${progress}%
+                </div>
+
+            </div>
+
+            <p class="intro">
+                ${stage.instruction}
+            </p>
+
+            <div style="
+                display:grid;
+                gap:10px;
+                margin-top:25px;
+            ">
+                ${buttons}
+            </div>
+
+            <div id="override-feedback"></div>
+
+        </div>
+
+        <div class="bottom">
+            EMERGENCY PROTOCOL • DO NOT DISCONNECT
+        </div>
+    `;
+}
+
+
+function answerOverride(button) {
+
+    const stage =
+        overrideStages[overrideStage];
+
+    const answer =
+        button.textContent.trim();
+
+    const feedback =
+        document.getElementById(
+            "override-feedback"
+        );
+
+
+    if (answer !== stage.answer) {
+
+        feedback.innerHTML = `
+
+            <div
+                class="fuel-result danger"
+                style="margin-top:20px;">
+
+                ✕ OVERRIDE REJECTED
+
+                <small>
+                    System instability increased.
+                    Try another protocol.
+                </small>
+
+            </div>
+        `;
+
+        return;
+    }
+
+
+    feedback.innerHTML = `
+
+        <div
+            class="fuel-result success"
+            style="margin-top:20px;">
+
+            ✓ ${stage.success}
+
+            <small>
+                Recovery protocol accepted.
+            </small>
+
+        </div>
+    `;
+
+
+    setTimeout(() => {
+
+        overrideStage++;
+
+        if (
+            overrideStage <
+            overrideStages.length
+        ) {
+
+            showOverrideStage();
+
+        } else {
+
+            showFinalOverride();
+        }
+
+    }, 900);
+}
+                         function showFinalOverride() {
+
+    document.querySelector(".screen").innerHTML = `
+
+        <div class="top-line">
+            <div>KRISS RACING SYSTEM</div>
+            <div>MANUAL OVERRIDE</div>
+        </div>
+
+        <div class="registration">
+
+            <div class="level">
+                BONUS LEVEL • FINAL PHASE
+            </div>
+
+            <h2 class="breach-title">
+                FINAL<br>
+                OVERRIDE
+            </h2>
+
+            <p class="intro">
+                Security breach contained.
+                <br><br>
+                One final authorization sequence
+                is required.
+            </p>
+
+            <div class="data-fragment">
+
+                <div class="fragment-label">
+                    MANUAL OVERRIDE SEQUENCE
+                </div>
+
+                <div class="override-code">
+                    ▲ ● ■ ◆
+                </div>
+
+                <div class="fragment-warning">
+                    REPEAT THE SEQUENCE
+                </div>
+
+            </div>
+
+            <p class="intro">
+                Enter the symbols in the exact order shown.
+            </p>
+
+            <div style="
+                display:grid;
+                grid-template-columns:repeat(4,1fr);
+                gap:10px;
+                margin-top:20px;
+            ">
+
+                <button
+                    class="option"
+                    onclick="pressOverrideSymbol('◆')">
+                    ◆
+                </button>
+
+                <button
+                    class="option"
+                    onclick="pressOverrideSymbol('▲')">
+                    ▲
+                </button>
+
+                <button
+                    class="option"
+                    onclick="pressOverrideSymbol('■')">
+                    ■
+                </button>
+
+                <button
+                    class="option"
+                    onclick="pressOverrideSymbol('●')">
+                    ●
+                </button>
+
+            </div>
+
+            <div
+                id="override-input"
+                class="override-code"
+                style="min-height:60px;">
+                _ _ _ _
+            </div>
+
+            <div id="symbol-feedback"></div>
+
+        </div>
+
+        <div class="bottom">
+            FINAL SECURITY AUTHORIZATION
+        </div>
+    `;
+
+    window.overrideInput = [];
+}
+                             function pressOverrideSymbol(symbol) {
+
+    const correctSequence =
+        ["▲", "●", "■", "◆"];
+
+    window.overrideInput.push(symbol);
+
+
+    document.getElementById(
+        "override-input"
+    ).textContent =
+        window.overrideInput.join(" ");
+
+
+    const index =
+        window.overrideInput.length - 1;
+
+
+    if (
+        window.overrideInput[index] !==
+        correctSequence[index]
+    ) {
+
+        document.getElementById(
+            "symbol-feedback"
+        ).innerHTML = `
+
+            <div class="fuel-result danger">
+
+                ✕ SEQUENCE ERROR
+
+                <small>
+                    Manual override reset.
+                </small>
+
+            </div>
+        `;
+
+        window.overrideInput = [];
+
+        setTimeout(() => {
+
+            document.getElementById(
+                "override-input"
+            ).textContent =
+                "_ _ _ _";
+
+        }, 700);
+
+        return;
+    }
+
+
+    if (
+        window.overrideInput.length ===
+        correctSequence.length
+    ) {
+
+        document.getElementById(
+            "symbol-feedback"
+        ).innerHTML = `
+
+            <div class="fuel-result success">
+
+                ✓ OVERRIDE ACCEPTED
+
+                <small>
+                    Security integrity restored.
+                </small>
+
+            </div>
+        `;
+
+
+        setTimeout(() => {
+
+            completeGrandPrix();
+
+        }, 1500);
+    }
+}
+        function completeGrandPrix() {
+
+    localStorage.setItem(
+        "krissLevel",
+        "complete"
+    );
+
+    document.querySelector(".screen").classList.remove(
+        "security-breach"
+    );
+
+
+    document.querySelector(".screen").innerHTML = `
+
+        <div class="top-line">
+            <div>KRISS RACING TEAM</div>
+            <div>GRAND PRIX 2026</div>
+        </div>
+
+        <div class="registration">
+
+            <div class="level">
+                ALL SYSTEMS SECURE
+            </div>
+
+            <div style="
+                font-size:75px;
+                margin:10px 0;
+            ">
+                🏆
+            </div>
+
+            <h2>
+                GRAND PRIX<br>
+                <span>WINNER</span>
+            </h2>
+
+            <div class="data-fragment">
+
+                <div class="fragment-label">
+                    OFFICIAL RACE RESULT
+                </div>
+
+                <div
+                    class="fragment-character"
+                    style="font-size:70px;">
+                    P1
+                </div>
+
+                <div class="fragment-status">
+                    ✓ DRIVER // LAUR
+                </div>
+
+                <div class="fragment-warning">
+                    10 LEVELS • 1 BONUS • 0 SHORTCUTS
+                </div>
+
+            </div>
+
+            <p class="intro">
+                Race complete.
+                <br>
+                Security restored.
+                <br>
+                Driver authenticated.
+                <br><br>
+                There is nothing left to prove.
+            </p>
+
+            <button
+                class="button"
+                onclick="showFinalRewards()">
+
+                CLAIM FINAL REWARD →
+
+            </button>
+
+        </div>
+
+        <div class="bottom">
+            KRISS RACING TEAM • GRAND PRIX WINNER
+        </div>
+    `;
 }
     </script>
 
