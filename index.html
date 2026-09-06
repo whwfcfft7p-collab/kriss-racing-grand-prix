@@ -6076,6 +6076,109 @@ function verifyFinalCode() {
 
     triggerSecurityBreach();
 }
+        function triggerSecurityBreach() {
+
+    localStorage.setItem("krissLevel", "bonus");
+
+    document.querySelector(".screen").classList.add(
+        "security-breach"
+    );
+
+    document.querySelector(".screen").innerHTML = `
+
+        <div class="top-line">
+            <div>⚠ KRISS RACING SYSTEM</div>
+            <div>CRITICAL ERROR</div>
+        </div>
+
+        <div class="registration">
+
+            <div class="level">
+                SECURITY PROTOCOL
+            </div>
+
+            <h2 class="breach-title">
+                SECURITY<br>
+                BREACH
+            </h2>
+
+            <div class="data-fragment">
+
+                <div class="fragment-label">
+                    🚨 UNAUTHORIZED ACCESS DETECTED 🚨
+                </div>
+
+                <div
+                    class="fragment-character"
+                    style="
+                        color:#ff304f;
+                        font-size:70px;
+                    ">
+                    !
+                </div>
+
+                <div class="fragment-status"
+                     style="color:#ff5d73;">
+                    FINAL REWARD LOCKED
+                </div>
+
+                <div class="fragment-warning">
+                    ACCESS KEY ACCEPTED —
+                    SECURITY INTEGRITY COMPROMISED
+                </div>
+
+            </div>
+
+            <p class="intro">
+                Emergency protocol activated.
+                <br><br>
+                Race Control has detected an unauthorized
+                system entry.
+            </p>
+
+            <div id="breach-status"
+                 class="fuel-result danger">
+
+                SYSTEM LOCKDOWN
+
+                <small>
+                    Initiating emergency response...
+                </small>
+
+            </div>
+
+        </div>
+
+        <div class="bottom">
+            🚨 CRITICAL SECURITY EVENT 🚨
+        </div>
+    `;
+
+
+    setTimeout(() => {
+
+        document.getElementById(
+            "breach-status"
+        ).innerHTML = `
+
+            BONUS LEVEL ACTIVATED
+
+            <small>
+                Driver intervention required.
+            </small>
+
+            <button
+                class="button"
+                style="margin-top:20px;"
+                onclick="startSecurityOverride()">
+
+                INITIATE OVERRIDE →
+
+            </button>
+        `;
+
+    }, 2200);
+}
     </script>
 
 </body>
