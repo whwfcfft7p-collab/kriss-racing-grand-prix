@@ -3520,7 +3520,7 @@ function goToLevel6() {
                 Build the perfect road kit.
             </p>
 
-            <button class="button">
+            <button class="button" onclick="startCarEssentials()">
                 START LEVEL
             </button>
 
@@ -3528,6 +3528,305 @@ function goToLevel6() {
 
         <div class="bottom">
             RACE CONTROL • LEVEL 06 • ESSENTIALS
+        </div>
+
+    `;
+}
+        let selectedEssentials = [];
+
+const carEssentialItems = [
+    {
+        name: "CHEWING GUM",
+        icon: "🫧",
+        correct: true
+    },
+    {
+        name: "WET WIPES",
+        icon: "🧻",
+        correct: true
+    },
+    {
+        name: "CAR PERFUME",
+        icon: "✨",
+        correct: true
+    },
+    {
+        name: "TISSUES",
+        icon: "🤧",
+        correct: true
+    },
+    {
+        name: "PHONE CHARGER",
+        icon: "🔌",
+        correct: true
+    },
+    {
+        name: "HAND SANITIZER",
+        icon: "🧴",
+        correct: true
+    },
+
+    {
+        name: "TOASTER",
+        icon: "🍞",
+        correct: false
+    },
+    {
+        name: "RUBBER DUCK",
+        icon: "🐥",
+        correct: false
+    },
+    {
+        name: "TV REMOTE",
+        icon: "📺",
+        correct: false
+    },
+    {
+        name: "FRYING PAN",
+        icon: "🍳",
+        correct: false
+    }
+];
+
+
+function startCarEssentials() {
+
+    selectedEssentials = [];
+
+    const items = carEssentialItems.map((item, index) => `
+
+        <button
+            class="option"
+            id="essential-${index}"
+            onclick="toggleEssential(${index})">
+
+            <div style="font-size:28px; margin-bottom:6px;">
+                ${item.icon}
+            </div>
+
+            ${item.name}
+
+        </button>
+
+    `).join("");
+
+    document.querySelector(".screen").innerHTML = `
+
+        <div class="top-line">
+            <div>KRISS RACING TEAM</div>
+            <div>LOADOUT SYSTEM</div>
+        </div>
+
+        <div class="registration">
+
+            <div class="level">
+                LEVEL 6 • PACK THE CAR
+            </div>
+
+            <h2>
+                SELECT YOUR<br>
+                <span>ESSENTIALS</span>
+            </h2>
+
+            <p class="intro">
+                Your storage kit has limited capacity.
+                <br>
+                Choose exactly <strong>6</strong> useful items.
+            </p>
+
+            <div
+                id="kit-capacity"
+                style="
+                    margin:20px 0;
+                    font-weight:900;
+                    letter-spacing:2px;
+                ">
+                KIT CAPACITY // 0 / 6
+            </div>
+
+            <div
+                style="
+                    display:grid;
+                    grid-template-columns:repeat(2, 1fr);
+                    gap:10px;
+                    width:100%;
+                    max-width:600px;
+                    margin:0 auto 25px;
+                ">
+                ${items}
+            </div>
+
+            <div id="essential-feedback"></div>
+
+            <button
+                class="button"
+                onclick="verifyEssentials()">
+                VERIFY LOADOUT
+            </button>
+
+        </div>
+
+        <div class="bottom">
+            VEHICLE STORAGE • CAPACITY 06
+        </div>
+
+    `;
+}
+
+
+function toggleEssential(index) {
+
+    const button =
+        document.getElementById(`essential-${index}`);
+
+    const position =
+        selectedEssentials.indexOf(index);
+
+    if (position !== -1) {
+
+        selectedEssentials.splice(position, 1);
+
+        button.style.borderColor = "";
+        button.style.boxShadow = "";
+        button.style.transform = "";
+
+    } else {
+
+        if (selectedEssentials.length >= 6) {
+            return;
+        }
+
+        selectedEssentials.push(index);
+
+        button.style.borderColor = "#76f7ff";
+        button.style.boxShadow =
+            "0 0 18px rgba(118,247,255,0.45)";
+        button.style.transform =
+            "translateY(-2px)";
+    }
+
+    document.getElementById("kit-capacity").innerHTML =
+        `KIT CAPACITY // ${selectedEssentials.length} / 6`;
+}
+
+
+function verifyEssentials() {
+
+    const feedback =
+        document.getElementById("essential-feedback");
+
+    if (selectedEssentials.length !== 6) {
+
+        feedback.innerHTML = `
+            <div class="fuel-result danger">
+                LOADOUT INCOMPLETE
+                <small>
+                    Select exactly 6 items.
+                </small>
+            </div>
+        `;
+
+        return;
+    }
+
+    const allCorrect =
+        selectedEssentials.every(index =>
+            carEssentialItems[index].correct
+        );
+
+    if (!allCorrect) {
+
+        feedback.innerHTML = `
+            <div class="fuel-result danger">
+                LOADOUT REJECTED
+                <small>
+                    Something in this car definitely
+                    does not belong here 💀
+                </small>
+            </div>
+        `;
+
+        return;
+    }
+
+    completeCarEssentials();
+}
+
+
+function completeCarEssentials() {
+
+    document.querySelector(".screen").innerHTML = `
+
+        <div class="top-line">
+            <div>KRISS RACING TEAM</div>
+            <div>LOADOUT VERIFIED</div>
+        </div>
+
+        <div class="registration">
+
+            <div class="level">
+                LEVEL 6 • COMPLETE
+            </div>
+
+            <h2>
+                ROAD KIT<br>
+                <span>READY ✓</span>
+            </h2>
+
+            <p class="intro">
+                Six essentials packed.
+                <br>
+                Vehicle preparation complete.
+            </p>
+
+            <div class="reward">
+                DRIVER REWARD UNLOCKED
+            </div>
+
+            <p class="reward-text">
+                Your Car Essentials Kit is ready.
+            </p>
+
+            <div class="data-fragment"
+                 style="margin-top:30px;">
+
+                <div class="fragment-label">
+                    DECRYPTION CLUE
+                </div>
+
+                <div class="fragment-source">
+                    SOURCE // RACE CONTROL
+                </div>
+
+                <p style="
+                    margin:25px 10px;
+                    line-height:1.7;
+                    font-weight:800;
+                    letter-spacing:1px;
+                ">
+                    THE FINAL KEY IS NOT RANDOM.
+                    <br><br>
+                    You already gave Race Control its name
+                    before the Grand Prix even started.
+                </p>
+
+                <div class="fragment-warning">
+                    IDENTITY // CODENAME
+                </div>
+
+            </div>
+
+            <button
+                class="button"
+                style="margin-top:25px;"
+                onclick="goToLevel7()">
+                CONTINUE →
+            </button>
+
+        </div>
+
+        <div class="bottom">
+            RACE CONTROL • LEVEL 06 CLEARED
         </div>
 
     `;
