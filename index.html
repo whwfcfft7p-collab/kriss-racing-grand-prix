@@ -2911,9 +2911,9 @@ function completePitStop() {
                 PIT CREW APPROVED ✓
             </div>
 
-            <button class="button" onclick="goToLevel5()">
-                NEXT LEVEL
-            </button>
+<button class="button" onclick="showNoFragment('goToLevel5')">
+    CONTINUE →
+</button>
 
         </div>
 
@@ -2923,7 +2923,66 @@ function completePitStop() {
 
     `;
 }
+function showNoFragment(nextFunctionName) {
 
+    document.querySelector(".screen").innerHTML = `
+        <div class="system-transition">
+
+            <div class="top-line">
+                <div>KRISS RACING SYSTEM</div>
+                <div>DATA SCAN</div>
+            </div>
+
+            <div class="registration">
+
+                <div class="level">
+                    SECTOR SCAN
+                </div>
+
+                <div class="data-fragment">
+
+                    <div class="fragment-label">
+                        DATA SCAN COMPLETE
+                    </div>
+
+                    <div class="fragment-source">
+                        SECTOR // PIT LANE
+                    </div>
+
+                    <div class="fragment-character">
+                        —
+                    </div>
+
+                    <div class="fragment-status">
+                        NO RECOVERABLE FRAGMENT FOUND
+                    </div>
+
+                    <div class="fragment-warning">
+                        NOT EVERY SECTOR CARRIES DATA.
+                    </div>
+
+                </div>
+
+                <p class="intro">
+                    Scan complete.<br>
+                    No encrypted character was recovered.
+                </p>
+
+                <button
+                    class="button"
+                    onclick="continueAfterFragment('${nextFunctionName}')">
+                    CONTINUE →
+                </button>
+
+            </div>
+
+            <div class="bottom">
+                SECURE CHANNEL • SCAN COMPLETE
+            </div>
+
+        </div>
+    `;
+}
 
 function goToLevel5() {
 
