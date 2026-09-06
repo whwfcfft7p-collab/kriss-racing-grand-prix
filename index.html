@@ -2371,14 +2371,9 @@ function showBuildResult() {
 
         </div>
 
-        <button
-            class="button continue-button"
-            onclick="goToLevel3()">
-
-            NEXT LEVEL →
-
-        </button>
-
+      <button class="button" onclick="showFragment(2, 'goToLevel3')">
+    CONTINUE →
+</button>
     `;
 }
 
@@ -3592,8 +3587,6 @@ function continueAfterFragment(nextFunctionName) {
 
     if (typeof nextFunction === "function") {
         nextFunction();
-    } else {
-        console.error("Next level function not found:", nextFunctionName);
     }
 }
 
