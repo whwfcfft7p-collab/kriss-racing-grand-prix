@@ -2706,9 +2706,13 @@ else if (savedLevel === "6") {
 else if (savedLevel === "7") {
     goToLevel7();
 }
-            else if (savedLevel === "8") {
+    else if (savedLevel === "8") {
     goToLevel8();
 }
+else if (savedLevel === "9") {
+    goToLevel9();
+}
+            
 
 });
 function resetGame() {
@@ -4432,6 +4436,414 @@ function completeCarGame() {
 
         <div class="bottom">
             RACE CONTROL • LEVEL 08 CLEARED
+        </div>
+    `;
+}
+        function goToLevel9() {
+
+    localStorage.setItem("krissLevel", "9");
+
+    document.querySelector(".screen").innerHTML = `
+
+        <div class="top-line">
+            <div>KRISS RACING TEAM</div>
+            <div>LIVE RACE FEED</div>
+        </div>
+
+        <div class="registration">
+
+            <div class="level">
+                LEVEL 9
+            </div>
+
+            <h2>
+                FINAL<br>
+                <span>LAP</span>
+            </h2>
+
+            <p class="intro">
+                One lap remains.
+                <br><br>
+                P1 is within reach.
+                Every decision matters.
+            </p>
+
+            <div class="data-fragment">
+
+                <div class="fragment-label">
+                    RACE STATUS
+                </div>
+
+                <div style="
+                    display:grid;
+                    grid-template-columns:repeat(2,1fr);
+                    gap:15px;
+                    margin:25px 0;
+                    text-align:left;
+                    font-weight:800;
+                ">
+                    <div>POSITION // <span>P2</span></div>
+                    <div>LAP // <span>18/18</span></div>
+                    <div>GAP // <span>+0.6</span></div>
+                    <div>STATUS // <span>ATTACK</span></div>
+                </div>
+
+                <div class="fragment-warning">
+                    FINAL LAP ACTIVE
+                </div>
+
+            </div>
+
+            <button
+                class="button"
+                style="margin-top:25px;"
+                onclick="startFinalLap()">
+                START FINAL LAP →
+            </button>
+
+        </div>
+
+        <div class="bottom">
+            RACE CONTROL • LAP 18/18
+        </div>
+    `;
+}
+
+
+const finalLapSectors = [
+
+    {
+        title: "MAIN STRAIGHT",
+        status: "OVERTAKE OPPORTUNITY",
+        position: "P2",
+        gap: "+0.6",
+        flag: "GREEN",
+        message:
+            "The car ahead is 0.6 seconds away. DRS is available and you're entering the main straight.",
+
+        options: [
+            "SAVE FUEL",
+            "USE DRS + ATTACK",
+            "HOLD POSITION"
+        ],
+
+        answer: "USE DRS + ATTACK",
+
+        success:
+            "DRS DEPLOYED // GAP CLOSING"
+    },
+
+    {
+        title: "BRAKING ZONE",
+        status: "DEFEND POSITION",
+        position: "P1",
+        gap: "-0.4",
+        flag: "GREEN",
+        message:
+            "Overtake complete. The rival is now 0.4 seconds behind and attacking into the braking zone.",
+
+        options: [
+            "DEFEND INSIDE LINE",
+            "MOVE OFFLINE",
+            "LET THEM PASS"
+        ],
+
+        answer: "DEFEND INSIDE LINE",
+
+        success:
+            "POSITION DEFENDED // P1"
+    },
+
+    {
+        title: "SECTOR YELLOW",
+        status: "CAUTION",
+        position: "P1",
+        gap: "-0.7",
+        flag: "YELLOW",
+        message:
+            "Yellow flags ahead. Debris has been reported on the racing line.",
+
+        options: [
+            "KEEP FULL SPEED",
+            "OVERTAKE TRAFFIC",
+            "SLOW DOWN / NO OVERTAKE"
+        ],
+
+        answer: "SLOW DOWN / NO OVERTAKE",
+
+        success:
+            "YELLOW FLAG PROCEDURE // CLEAR"
+    },
+
+    {
+        title: "FINAL CORNER",
+        status: "LAST ATTACK",
+        position: "P2",
+        gap: "+0.3",
+        flag: "GREEN",
+        message:
+            "The rival recovered the lead. P1 is only 0.3 seconds ahead. Tyres are alive. Fuel is sufficient. Finish line ahead.",
+
+        options: [
+            "FULL SEND",
+            "SAVE THE TYRES",
+            "SETTLE FOR P2"
+        ],
+
+        answer: "FULL SEND",
+
+        success:
+            "OVERTAKE SUCCESSFUL // POSITION P1"
+    }
+
+];
+
+
+let currentFinalSector = 0;
+
+
+function startFinalLap() {
+
+    currentFinalSector = 0;
+
+    showFinalSector();
+}
+
+
+function showFinalSector() {
+
+    const sector =
+        finalLapSectors[currentFinalSector];
+
+    const buttons =
+        sector.options.map(option => `
+
+            <button
+                class="option"
+                onclick="answerFinalLap('${option}')">
+                ${option}
+            </button>
+
+        `).join("");
+
+    document.querySelector(".screen").innerHTML = `
+
+        <div class="top-line">
+            <div>KRISS RACING TEAM</div>
+            <div>LIVE TELEMETRY</div>
+        </div>
+
+        <div class="registration">
+
+            <div class="level">
+                LAP 18/18 • ${sector.title}
+            </div>
+
+            <h2>
+                ${sector.status}
+            </h2>
+
+            <div class="data-fragment">
+
+                <div class="fragment-label">
+                    LIVE RACE DATA
+                </div>
+
+                <div style="
+                    display:grid;
+                    grid-template-columns:repeat(2,1fr);
+                    gap:12px;
+                    margin:20px 0;
+                    text-align:left;
+                    font-weight:800;
+                    letter-spacing:1px;
+                ">
+
+                    <div>
+                        POSITION //
+                        <span>${sector.position}</span>
+                    </div>
+
+                    <div>
+                        GAP //
+                        <span>${sector.gap}</span>
+                    </div>
+
+                    <div>
+                        LAP //
+                        <span>18/18</span>
+                    </div>
+
+                    <div>
+                        FLAG //
+                        <span>${sector.flag}</span>
+                    </div>
+
+                </div>
+
+                <div class="fragment-warning">
+                    RACE CONTROL // DECISION REQUIRED
+                </div>
+
+            </div>
+
+            <p class="intro" style="margin-top:25px;">
+                ${sector.message}
+            </p>
+
+            <div style="
+                display:grid;
+                gap:10px;
+                margin-top:20px;
+            ">
+                ${buttons}
+            </div>
+
+            <div id="final-lap-feedback"></div>
+
+        </div>
+
+        <div class="bottom">
+            KRISS RACING • FINAL LAP
+        </div>
+    `;
+}
+
+
+function answerFinalLap(answer) {
+
+    const sector =
+        finalLapSectors[currentFinalSector];
+
+    const feedback =
+        document.getElementById(
+            "final-lap-feedback"
+        );
+
+    if (answer !== sector.answer) {
+
+        feedback.innerHTML = `
+
+            <div
+                class="fuel-result danger"
+                style="margin-top:20px;">
+
+                RACE CONTROL // BAD CALL
+
+                <small>
+                    That decision costs time.
+                    Reassess the situation.
+                </small>
+
+            </div>
+        `;
+
+        return;
+    }
+
+
+    feedback.innerHTML = `
+
+        <div
+            class="fuel-result success"
+            style="margin-top:20px;">
+
+            ✓ ${sector.success}
+
+            <small>
+                Race strategy confirmed.
+            </small>
+
+        </div>
+    `;
+
+
+    setTimeout(() => {
+
+        currentFinalSector++;
+
+        if (
+            currentFinalSector <
+            finalLapSectors.length
+        ) {
+
+            showFinalSector();
+
+        } else {
+
+            completeFinalLap();
+
+        }
+
+    }, 1100);
+}
+
+
+function completeFinalLap() {
+
+    document.querySelector(".screen").innerHTML = `
+
+        <div class="top-line">
+            <div>KRISS RACING TEAM</div>
+            <div>CHEQUERED FLAG</div>
+        </div>
+
+        <div class="registration">
+
+            <div class="level">
+                LEVEL 9 • COMPLETE
+            </div>
+
+            <div style="
+                font-size:70px;
+                margin:15px 0;
+            ">
+                🏁
+            </div>
+
+            <h2>
+                RACE<br>
+                <span>WINNER</span>
+            </h2>
+
+            <div class="data-fragment">
+
+                <div class="fragment-label">
+                    OFFICIAL RACE RESULT
+                </div>
+
+                <div
+                    class="fragment-character"
+                    style="font-size:65px;">
+                    P1
+                </div>
+
+                <div class="fragment-status">
+                    ✓ CHEQUERED FLAG
+                </div>
+
+                <div class="fragment-warning">
+                    FINAL LAP COMPLETE
+                </div>
+
+            </div>
+
+            <p class="intro">
+                Final overtake successful.
+                <br>
+                Race position secured.
+            </p>
+
+            <button
+                class="button"
+                onclick="showFragment(9, 'goToLevel10')">
+                CONTINUE →
+            </button>
+
+        </div>
+
+        <div class="bottom">
+            KRISS RACING • POSITION P1
         </div>
     `;
 }
