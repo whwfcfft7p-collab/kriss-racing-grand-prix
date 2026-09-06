@@ -2706,6 +2706,9 @@ else if (savedLevel === "6") {
 else if (savedLevel === "7") {
     goToLevel7();
 }
+            else if (savedLevel === "8") {
+    goToLevel8();
+}
 
 });
 function resetGame() {
@@ -4127,6 +4130,308 @@ function completeEngineGame() {
 
         <div class="bottom">
             RACE CONTROL • LEVEL 07 CLEARED
+        </div>
+    `;
+}
+        function goToLevel8() {
+
+    localStorage.setItem("krissLevel", "8");
+
+    document.querySelector(".screen").innerHTML = `
+
+        <div class="top-line">
+            <div>KRISS RACING TEAM</div>
+            <div>VISUAL DATABASE</div>
+        </div>
+
+        <div class="registration">
+
+            <div class="level">
+                LEVEL 8
+            </div>
+
+            <h2>
+                GUESS THE<br>
+                <span>CAR</span>
+            </h2>
+
+            <p class="intro">
+                Four vehicle images were recovered.
+                <br><br>
+                Identify each car from the available visual data.
+            </p>
+
+            <div class="data-fragment" style="margin-top:25px;">
+
+                <div class="fragment-label">
+                    VISUAL DATABASE ONLINE
+                </div>
+
+                <div class="fragment-character" style="font-size:50px;">
+                    ◉
+                </div>
+
+                <div class="fragment-warning">
+                    IMAGE DATA MAY BE INCOMPLETE
+                </div>
+
+            </div>
+
+            <button
+                class="button"
+                style="margin-top:25px;"
+                onclick="startCarGame()">
+                START IDENTIFICATION →
+            </button>
+
+        </div>
+
+        <div class="bottom">
+            RACE CONTROL • LEVEL 08 • VISUAL IDENTIFICATION
+        </div>
+    `;
+}
+
+
+const carRounds = [
+
+    {
+        image: "car-bmw.jpeg",
+        difficulty: "EASY",
+        data: "92%",
+        answer: "BMW M3 G80",
+        options: [
+            "BMW M3 G80",
+            "BMW M5 F90",
+            "Audi RS5",
+            "Mercedes-AMG C63"
+        ]
+    },
+
+    {
+        image: "car-gtr.jpeg",
+        difficulty: "MEDIUM",
+        data: "74%",
+        answer: "NISSAN GT-R R35",
+        options: [
+            "Nissan 370Z",
+            "Toyota Supra",
+            "NISSAN GT-R R35",
+            "Lexus LFA"
+        ]
+    },
+
+    {
+        image: "car-lambo.jpeg",
+        difficulty: "HARD",
+        data: "51%",
+        answer: "LAMBORGHINI AVENTADOR",
+        options: [
+            "Ferrari 488",
+            "Lamborghini Huracán",
+            "McLaren 720S",
+            "LAMBORGHINI AVENTADOR"
+        ]
+    },
+
+    {
+        image: "car-porsche.jpeg",
+        difficulty: "EXPERT",
+        data: "37%",
+        answer: "PORSCHE 911 GT3 RS",
+        options: [
+            "Porsche 911 Turbo S",
+            "PORSCHE 911 GT3 RS",
+            "Porsche Cayman GT4 RS",
+            "Porsche 911 GT3"
+        ]
+    }
+
+];
+
+let currentCarRound = 0;
+
+
+function startCarGame() {
+
+    currentCarRound = 0;
+    showCarRound();
+}
+
+
+function showCarRound() {
+
+    const round = carRounds[currentCarRound];
+
+    const options = round.options.map(option => `
+
+        <button
+            class="option"
+            onclick="answerCar('${option}')">
+            ${option}
+        </button>
+
+    `).join("");
+
+    document.querySelector(".screen").innerHTML = `
+
+        <div class="top-line">
+            <div>KRISS RACING TEAM</div>
+            <div>VISUAL ANALYSIS</div>
+        </div>
+
+        <div class="registration">
+
+            <div class="level">
+                IDENTIFICATION ${currentCarRound + 1} / 4
+                • ${round.difficulty}
+            </div>
+
+            <h2>
+                IDENTIFY<br>
+                <span>VEHICLE</span>
+            </h2>
+
+            <div class="data-fragment">
+
+                <div class="fragment-label">
+                    VISUAL DATA // ${round.data} AVAILABLE
+                </div>
+
+                <img
+                    src="${round.image}"
+                    style="
+                        width:100%;
+                        max-width:600px;
+                        max-height:300px;
+                        object-fit:contain;
+                        display:block;
+                        margin:20px auto;
+                        border-radius:4px;
+                    "
+                >
+
+                <div class="fragment-warning">
+                    DATABASE MATCH REQUIRED
+                </div>
+
+            </div>
+
+            <div
+                style="
+                    display:grid;
+                    grid-template-columns:repeat(2,1fr);
+                    gap:10px;
+                    margin-top:25px;
+                ">
+                ${options}
+            </div>
+
+            <div id="car-feedback"></div>
+
+        </div>
+
+        <div class="bottom">
+            VISUAL DATABASE • ${round.difficulty}
+        </div>
+    `;
+}
+
+
+function answerCar(answer) {
+
+    const round = carRounds[currentCarRound];
+
+    if (answer !== round.answer) {
+
+        document.getElementById("car-feedback").innerHTML = `
+
+            <div
+                class="fuel-result danger"
+                style="margin-top:20px;">
+
+                ✕ VEHICLE MISMATCH
+
+                <small>
+                    Database match failed.
+                    Analyze the image and retry.
+                </small>
+
+            </div>
+        `;
+
+        return;
+    }
+
+    document.getElementById("car-feedback").innerHTML = `
+
+        <div
+            class="fuel-result success"
+            style="margin-top:20px;">
+
+            ✓ VEHICLE IDENTIFIED
+
+            <small>
+                Database match confirmed.
+            </small>
+
+        </div>
+    `;
+
+    setTimeout(() => {
+
+        currentCarRound++;
+
+        if (currentCarRound < carRounds.length) {
+
+            showCarRound();
+
+        } else {
+
+            completeCarGame();
+
+        }
+
+    }, 900);
+}
+
+
+function completeCarGame() {
+
+    document.querySelector(".screen").innerHTML = `
+
+        <div class="top-line">
+            <div>KRISS RACING TEAM</div>
+            <div>DATABASE VERIFIED</div>
+        </div>
+
+        <div class="registration">
+
+            <div class="level">
+                LEVEL 8 • COMPLETE
+            </div>
+
+            <h2>
+                VEHICLE DATABASE<br>
+                <span>VERIFIED ✓</span>
+            </h2>
+
+            <p class="intro">
+                4 / 4 vehicles identified.
+                <br>
+                Visual identification complete.
+            </p>
+
+            <button
+                class="button"
+                onclick="showFragment(8, 'goToLevel9')">
+                CONTINUE →
+            </button>
+
+        </div>
+
+        <div class="bottom">
+            RACE CONTROL • LEVEL 08 CLEARED
         </div>
     `;
 }
