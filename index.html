@@ -3040,6 +3040,13 @@ else if (savedLevel === "complete") {
 }           
 
 });
+        if (!sessionStorage.getItem("krissSessionStarted")) {
+
+    localStorage.removeItem("krissLevel");
+    localStorage.removeItem("krissFragments");
+
+    sessionStorage.setItem("krissSessionStarted", "true");
+}
 function resetGame() {
 
     localStorage.removeItem("krissLevel");
