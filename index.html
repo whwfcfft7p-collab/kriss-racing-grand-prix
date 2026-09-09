@@ -1306,7 +1306,264 @@ h2 span {
 }
         let overrideStage = 0;
 
+/* =====================================
+   KRISS RACING — F1 RED / MCLAREN ACCENTS
+   ===================================== */
 
+:root {
+    --bg: #050505;
+    --panel: rgba(18, 18, 18, 0.82);
+    --panel2: rgba(28, 28, 28, 0.92);
+    --line: rgba(255, 255, 255, 0.14);
+
+    --text: #ffffff;
+    --muted: #9a9a9a;
+
+    --blue: #e10600;
+    --cyan: #e10600;
+    --lime: #ffffff;
+    --red: #e10600;
+
+    --papaya: #ff8700;
+}
+
+
+/* BACKGROUND */
+
+body {
+    background:
+        radial-gradient(
+            circle at 15% 20%,
+            rgba(225, 6, 0, 0.16),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 85% 75%,
+            rgba(255, 135, 0, 0.06),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #030303 0%,
+            #0a0a0a 45%,
+            #050505 100%
+        ) !important;
+
+    color: #ffffff;
+}
+
+
+/* TOP TELEMETRY */
+
+.top-line {
+    background: rgba(10, 10, 10, 0.84) !important;
+    border-color: rgba(255, 255, 255, 0.14) !important;
+    color: #b8b8b8 !important;
+}
+
+
+/* MCLAREN DIVISION */
+
+.team {
+    color: #ff8700 !important;
+}
+
+
+/* MAIN TITLES */
+
+h1 span,
+h2 span {
+    color: #e10600 !important;
+}
+
+h1,
+h2 {
+    text-shadow:
+        0 0 32px rgba(225, 6, 0, 0.10) !important;
+}
+
+
+/* LEVEL / HUD ACCENTS */
+
+.level {
+    color: #ffffff !important;
+    border-color: rgba(225, 6, 0, 0.45) !important;
+    background: rgba(225, 6, 0, 0.08) !important;
+}
+
+
+/* MAIN BUTTONS */
+
+.button {
+    border-color: rgba(225, 6, 0, 0.75) !important;
+
+    background:
+        linear-gradient(
+            110deg,
+            rgba(225, 6, 0, 0.16),
+            rgba(225, 6, 0, 0.03)
+        ) !important;
+
+    color: #ffffff !important;
+
+    box-shadow:
+        0 0 28px rgba(225, 6, 0, 0.08) !important;
+}
+
+.button:hover {
+    background: #e10600 !important;
+    border-color: #e10600 !important;
+    color: #ffffff !important;
+
+    box-shadow:
+        0 0 30px rgba(225, 6, 0, 0.30) !important;
+}
+
+
+/* QUIZ / OPTION BUTTONS */
+
+.option,
+.fuel-option,
+.build-option-new {
+    border-color: rgba(255, 255, 255, 0.14) !important;
+    background: rgba(255, 255, 255, 0.025) !important;
+}
+
+.option:hover,
+.fuel-option:hover,
+.build-option-new:hover {
+    border-color: #e10600 !important;
+    background: rgba(225, 6, 0, 0.10) !important;
+}
+
+.build-option-new.selected {
+    border-color: #e10600 !important;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(225, 6, 0, 0.20),
+            rgba(20, 20, 20, 0.95)
+        ) !important;
+
+    box-shadow:
+        0 0 25px rgba(225, 6, 0, 0.12) !important;
+}
+
+
+/* CAR BUILD AREA */
+
+.car-preview-box {
+    border-color: rgba(255, 255, 255, 0.14) !important;
+
+    background:
+        radial-gradient(
+            circle at 50% 45%,
+            rgba(225, 6, 0, 0.12),
+            transparent 45%
+        ),
+        linear-gradient(
+            145deg,
+            #151515,
+            #050505
+        ) !important;
+}
+
+.car-preview-box::after {
+    color: #ff8700 !important;
+}
+
+.build-final-title {
+    color: #e10600 !important;
+}
+
+
+/* DATA FRAGMENTS */
+
+.data-fragment {
+    border-color: rgba(225, 6, 0, 0.35) !important;
+    background: rgba(12, 12, 12, 0.92) !important;
+
+    box-shadow:
+        0 0 40px rgba(225, 6, 0, 0.08) !important;
+}
+
+.fragment-label,
+.fragment-status {
+    color: #ffffff !important;
+}
+
+.fragment-character {
+    color: #e10600 !important;
+
+    text-shadow:
+        0 0 12px rgba(225, 6, 0, 0.8),
+        0 0 30px rgba(225, 6, 0, 0.35) !important;
+}
+
+.fragment-progress div {
+    background:
+        linear-gradient(
+            90deg,
+            #e10600,
+            #ff3b35
+        ) !important;
+
+    box-shadow:
+        0 0 12px rgba(225, 6, 0, 0.7) !important;
+}
+
+
+/* RACE INFO */
+
+.race-info {
+    border-color: rgba(255, 255, 255, 0.14) !important;
+    background: rgba(12, 12, 12, 0.86) !important;
+}
+
+
+/* SUCCESS / WARNING */
+
+.success,
+.perfect {
+    color: #ffffff !important;
+}
+
+.warning {
+    color: #ff8700 !important;
+}
+
+.danger {
+    color: #ff3040 !important;
+}
+
+
+/* BOTTOM STATUS */
+
+.bottom {
+    color: #777 !important;
+}
+
+
+/* SMALL MCLAREN DETAILS */
+
+.reward {
+    color: #ff8700 !important;
+}
+
+.car-preview-box::after {
+    color: #ff8700 !important;
+}
+
+
+/* FINAL / OVERRIDE */
+
+.override-code {
+    color: #e10600 !important;
+}
+
+.override-bar div {
+    background: #e10600 !important;
+}
 
     </style>
 </head>
