@@ -1663,6 +1663,34 @@ h2 {
         border-color: #e10600 !important;
     }
 }
+        /* REMOVE OLD BLUE/CYAN CHOICE BORDERS */
+
+.option:hover,
+.answer:hover,
+.fuel-option:hover,
+.build-option-new:hover {
+    border-color: #e10600 !important;
+    outline: none !important;
+
+    box-shadow:
+        0 0 20px rgba(225, 6, 0, 0.18) !important;
+}
+
+.option:focus,
+.answer:focus,
+.fuel-option:focus,
+.build-option-new:focus {
+    border-color: #e10600 !important;
+    outline: none !important;
+}
+
+.option:focus-visible,
+.answer:focus-visible,
+.fuel-option:focus-visible,
+.build-option-new:focus-visible {
+    outline: 2px solid #e10600 !important;
+    outline-offset: 2px;
+}
     </style>
 </head>
 
