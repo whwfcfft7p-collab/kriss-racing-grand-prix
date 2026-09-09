@@ -5989,7 +5989,15 @@ function verifyFinalCode() {
 
     triggerSecurityBreach();
 }
+        const bonusAlarm = new Audio("alarm.mp3");
+bonusAlarm.loop = true;
+bonusAlarm.volume = 0.55;
         function triggerSecurityBreach() {
+            bonusAlarm.currentTime = 0;
+
+bonusAlarm.play().catch(() => {
+    console.log("Alarm waiting for user interaction");
+});
 
     localStorage.setItem("krissLevel", "bonus");
 
@@ -6552,6 +6560,8 @@ function answerOverride(button) {
     }, 6000);
 }
         function completeGrandPrix() {
+            bonusAlarm.pause();
+bonusAlarm.currentTime = 0;
             launchConfetti();
 
     localStorage.setItem(
