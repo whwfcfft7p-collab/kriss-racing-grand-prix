@@ -1589,6 +1589,80 @@ h2 {
 .pack-item span {
     color: #ffffff !important;
 }
+        /* =========================================
+   CHOICE BUTTONS — BLACK + WHITE
+   LEVELS 6 / 7 / 8 / 9 / AUTH / BONUS
+   ========================================= */
+
+.option {
+    background: #080808 !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.20) !important;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.03),
+        0 10px 25px rgba(0,0,0,0.30) !important;
+
+    transition: 0.2s ease !important;
+}
+
+.option:hover {
+    background: #111111 !important;
+    color: #ffffff !important;
+
+    border-color: #e10600 !important;
+
+    box-shadow:
+        0 0 20px rgba(225, 6, 0, 0.16) !important;
+
+    transform: translateY(-2px) !important;
+}
+
+.option:active {
+    background: #161616 !important;
+    color: #ffffff !important;
+
+    border-color: #e10600 !important;
+
+    transform: translateY(0) !important;
+}
+
+.option strong,
+.option span,
+.option div {
+    color: #ffffff !important;
+}
+
+
+/* LEVEL 6 — SELECTED ESSENTIAL */
+
+[id^="essential-"] {
+    background: #080808 !important;
+    color: #ffffff !important;
+}
+
+[id^="essential-"]:hover {
+    background: #111111 !important;
+    color: #ffffff !important;
+    border-color: #e10600 !important;
+}
+
+
+/* MOBILE — NO WEIRD TAP COLOR */
+
+@media (hover: none) {
+
+    .option:hover {
+        background: #080808 !important;
+        color: #ffffff !important;
+    }
+
+    .option:active {
+        background: #111111 !important;
+        color: #ffffff !important;
+        border-color: #e10600 !important;
+    }
+}
     </style>
 </head>
 
@@ -6384,7 +6458,73 @@ function answerOverride(button) {
         }, 1500);
     }
 }
+        function launchConfetti() {
+
+    const colors = [
+        "#e10600", // F1 red
+        "#ffffff", // white
+        "#ff8700"  // McLaren papaya
+    ];
+
+    const container = document.createElement("div");
+
+    container.style.position = "fixed";
+    container.style.inset = "0";
+    container.style.pointerEvents = "none";
+    container.style.overflow = "hidden";
+    container.style.zIndex = "99999";
+
+    document.body.appendChild(container);
+
+    for (let i = 0; i < 120; i++) {
+
+        const confetti = document.createElement("div");
+
+        const size = Math.random() * 7 + 5;
+
+        confetti.style.position = "absolute";
+        confetti.style.width = size + "px";
+        confetti.style.height = size * 1.7 + "px";
+
+        confetti.style.background =
+            colors[Math.floor(Math.random() * colors.length)];
+
+        confetti.style.left = Math.random() * 100 + "vw";
+        confetti.style.top = "-20px";
+
+        confetti.style.opacity =
+            Math.random() * 0.5 + 0.5;
+
+        confetti.style.transform =
+            `rotate(${Math.random() * 360}deg)`;
+
+        confetti.style.transition =
+            `transform ${Math.random() * 2 + 3}s linear,
+             top ${Math.random() * 2 + 3}s ease-in,
+             left ${Math.random() * 2 + 3}s ease-out`;
+
+        container.appendChild(confetti);
+
+        setTimeout(() => {
+
+            confetti.style.top = "110vh";
+
+            confetti.style.left =
+                (parseFloat(confetti.style.left) +
+                (Math.random() * 20 - 10)) + "vw";
+
+            confetti.style.transform =
+                `rotate(${Math.random() * 1000 + 500}deg)`;
+
+        }, 50 + Math.random() * 500);
+    }
+
+    setTimeout(() => {
+        container.remove();
+    }, 6000);
+}
         function completeGrandPrix() {
+            launchConfetti();
 
     localStorage.setItem(
         "krissLevel",
